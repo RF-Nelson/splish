@@ -5,7 +5,7 @@
 
       <% if signed_in? %>
 
-      <div class="authed">
+      <div class="authed" id="div-item-data" data-user-id="<%= current_user.id %>">
         Hello, <%= current_user.first_name %><br><br>
         <form class='auth_form' action="<%= session_url %>" method="post">
           <input type="hidden" name="_method" value="delete">

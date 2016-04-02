@@ -26,10 +26,11 @@ end
   else
     start_date = sample_array.sample.days.from_now
   end
-  # Create an array that will be sampled. The value returned will
-  # be the length of the event; I've weighted the odds so more
-  # short events are seeded than long events.
-  event_length = [1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,3,3,3,3,4,5,6,7].sample
+  # Create an array that will be sampled. The value returned will be the 
+  # length of the event; I've weighted the odds so more short events
+  # are seeded than long events. The number represents the number of nights
+  # (e.g. an event spanning two days would be represented as a length of 1)
+  event_length = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,3,3,3,3,4,5,6,7].sample
   end_date = start_date + event_length.days
 
   Event.create([{

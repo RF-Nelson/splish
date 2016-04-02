@@ -16,12 +16,15 @@ class Api::EventsController < ApplicationController
   end
 
   def create
-    @event = Event.new(listing_params)
-    if @event.save
+    data = JSON.parse(params.flatten()[0])
+    data = (data["data"])
+    @event = Event.new(data)
+    if @event.save!
       Pusher.trigger('test_channel', 'my_event', {
-        message: @event.description
+        message: @event
       })
-      render :show
+
+      head :ok, content_type: "text/html"
     else
       render json: @event.errors.full_messages, status: 422
     end

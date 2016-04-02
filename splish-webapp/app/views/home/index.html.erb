@@ -2,20 +2,31 @@
   <%= render 'layouts/header' %>
 <% end %>
 
+
 <div class="container-fluid" ng-app="splish" ng-controller="EventController">
+  <md-button ng-show="{{user_id}}" class="md-primary md-raised" ng-click="showConfirm($event)" >
+    Create an Event
+  </md-button>
   <div class="panel panel-success">
     <div class="panel-heading" >
-      <h1>Event #1: {{events}}</h1>
-      <h1>Listener: {{status}}</h1>
-      <!-- <h1>Event #1: {{}}</h1> -->
-
+      <div ng-show="newEventReceived" class="events" ng-repeat="event in newEvents" style="border: 1px solid #fff;">
+        <h1 ng-if="$first">NEWLY CREATED EVENTS</h1>
+        <h1>{{event.title}}</h1>
+        <p><span ng-hide="event.start_date == event.end_date">From: {{event.start_date | date:'medium'}} to </span>{{event.end_date | date:'medium'}}</p>
+        <p>{{event.description}}</p>
+      </div>
+      <div class="events" ng-repeat="event in events" style="border: 1px solid #fff;">
+        <h1>{{event.title}}</h1>
+        <p><span ng-hide="event.start_date == event.end_date">From: {{event.start_date | date:'medium'}} to </span>{{event.end_date | date:'medium'}}</p>
+        <p>{{event.description}}</p>
+      </div>
     </div>
-    <md-datepicker ng-model="date">
 
-    </md-datepicker >
-    <md-button class="md-primary md-raised" ng-click="showConfirm($event)" >
-      Confirm Dialog
-    </md-button>
+
+    <!-- <md-datepicker ng-model="date">
+
+    </md-datepicker > -->
+
     <div class="panel-body">
       <!-- <form class="form-inline">
         <div class="form-group">
