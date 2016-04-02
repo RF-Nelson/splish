@@ -1,6 +1,6 @@
 var app = angular.module('splish',['ngMaterial', 'pusher-angular', 'ng-rails-csrf']);
 
-app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', function($scope, $http, $pusher, $mdDialog) {
+app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$q', function($scope, $http, $pusher, $mdDialog, $q) {
   $scope.events;
   $scope.newEventReceived = false;
   $scope.newEvents = [];
@@ -49,7 +49,21 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', fu
         '<br>' +
         '<label>End Date<input type="date" name="end_date" ng-model=message.end_date value="End Date"></label>' +
         '<br>' +
-        '<label>Location<input type="text" name="location" ng-model=message.location value="Location"></label>' +
+        '<div class="google-map">' +
+          '<md-autocomplete md-no-cache="true"' +
+             'md-selected-item="selectedItem"' +
+             'md-selected-item-change="selectedItemChange(item)"' +
+             'md-search-text-change="search(searchText); selectedItemChange(searchText)"' +
+             'md-search-text="searchText"' +
+             'md-items="item in search(searchText)"' +
+             'md-item-text="item"' +
+             'md-min-length="1"' +
+             'placeholder="Type your address">' +
+            '<md-item-template>' +
+              '<span md-highlight-text="searchText" md-highlight-flags="^i">{{item}}</span>' +
+            '</md-item-template>' +
+          '</md-autocomplete>' +
+        '</div>' +
         '<br>' +
         '<label>Description<textarea name="description" ng-model=message.description rows="8" cols="40">Describe your event</textarea></label>' +
         '<br>' +
@@ -58,6 +72,38 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', fu
     })
   };
 
+  $scope.gmapsService = new google.maps.places.AutocompleteService();
 
+  $scope.search = search;
+
+  function search(address) {
+    if (address) {
+      var deferred = $q.defer();
+      getResults(address).then(
+        function (predictions) {
+          var results = [];
+          for (var i = 0, prediction; prediction = predictions[i]; i++) {
+            results.push(prediction.description);
+          }
+          deferred.resolve(results);
+        }
+      );
+      return deferred.promise;
+    }
+  }
+
+  function getResults(address) {
+    if (address) {
+      var deferred = $q.defer();
+      $scope.gmapsService.getQueryPredictions({input: address}, function (data) {
+        deferred.resolve(data);
+      });
+      return deferred.promise;
+    }
+  }
+
+  $scope.selectedItemChange = function (item) {
+    $scope.message.location = item;
+  }
 
 }]);
