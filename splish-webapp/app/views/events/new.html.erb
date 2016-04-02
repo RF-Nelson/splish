@@ -1,6 +1,3 @@
-
-<h2>Create New Adoption Listing</h2>
-<br>
 <form action="<%= events_url %>" method="post">
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
   <input type="hidden" name="event[owner_id]" value="<%= current_user.id %>">

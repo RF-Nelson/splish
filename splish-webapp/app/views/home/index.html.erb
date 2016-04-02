@@ -1,16 +1,21 @@
 <% content_for :header do  %>
   <%= render 'layouts/header' %>
 <% end %>
-<div class="container-fluid" ng-app="splish">
+
+<div class="container-fluid" ng-app="splish" ng-controller="EventController">
   <div class="panel panel-success">
-    <div class="panel-heading" ng-controller="EventController">
+    <div class="panel-heading" >
       <h1>Event #1: {{events}}</h1>
+      <h1>Listener: {{status}}</h1>
       <!-- <h1>Event #1: {{}}</h1> -->
 
     </div>
     <md-datepicker ng-model="date">
 
-    </md-datepicker>
+    </md-datepicker >
+    <md-button class="md-primary md-raised" ng-click="showConfirm($event)" >
+      Confirm Dialog
+    </md-button>
     <div class="panel-body">
       <!-- <form class="form-inline">
         <div class="form-group">

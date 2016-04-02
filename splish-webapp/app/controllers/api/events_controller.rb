@@ -18,6 +18,9 @@ class Api::EventsController < ApplicationController
   def create
     @event = Event.new(listing_params)
     if @event.save
+      Pusher.trigger('test_channel', 'my_event', {
+        message: @event.description
+      })
       render :show
     else
       render json: @event.errors.full_messages, status: 422
@@ -50,8 +53,7 @@ class Api::EventsController < ApplicationController
   private
 
     def listing_params
-      params.require(:listing).permit(:owner_id, :location, :pet_name, :species,
-      :breed, :age, :body, :gender, :picture)
+      params.require(:event).permit(:owner_id, :location, :start_date, :end_date, :description, :title)
     end
 
 end
