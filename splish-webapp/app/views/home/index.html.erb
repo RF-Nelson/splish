@@ -1,0 +1,22 @@
+<% content_for :header do  %>
+  <%= render 'layouts/header' %>
+<% end %>
+<div class="container-fluid" ng-app="splish">
+  <div class="panel panel-success">
+    <div class="panel-heading" ng-controller="EventController">
+      <h1>Event #1: {{events}}</h1>
+      <!-- <h1>Event #1: {{}}</h1> -->
+
+    </div>
+    <md-datepicker ng-model="date">
+
+    </md-datepicker>
+    <div class="panel-body">
+      <!-- <form class="form-inline">
+        <div class="form-group">
+          <input class="form-control" type="text" placeholder="Enter your name" autofocus ng-model="name">
+        </div>
+      </form> -->
+    </div>
+  </div>
+</div>

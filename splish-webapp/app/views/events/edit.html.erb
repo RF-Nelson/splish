@@ -1,0 +1,32 @@
+<% redirect_to events_url unless current_user.id == @event.owner_id %>
+
+<h2>Edit Your Event Listing</h2>
+<br>
+<form action="<%= event_url(@event.id) %>" method="post">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <input type="hidden" name="_method" value="patch">
+  <input type="hidden" name="listing[owner_id]" value="<%= current_user.id %>">
+
+  <label>Event title
+  <input type="text" name="event[title]" value="<%= @event.title %>">
+  </label><br>
+
+  <label>Start Date
+  <input type="date" name="event[start_date]" value="<%= @event.start_date %>">
+  </label><br>
+
+  <label>Age
+  <input type="date" name="event[end_date]" value="<%= @event.end_date %>">
+  </label><br>
+
+  <label>Location
+  <input type="text" name="event[location]" value="<%= @event.location %>">
+  </label><br>
+
+  <label>Description
+    <textarea name="event[description]" rows="8" cols="40"><%= @event.body %></textarea>
+  </label><br>
+
+  <button name="Edit Listing">Edit Listing</button>
+
+</form>

@@ -1,0 +1,26 @@
+<div class="signup">
+
+  <h2>Please Try Again...</h2>
+  <br>
+  <br>
+
+  <form  class="signupauth" action="<%= session_url %>" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+    <label>E-mail:
+    <input type="text" name="guest[email]" placeholder="E-Mail Address" value="">
+    </label>
+
+    <label>Password:
+    <input type="password" name="guest[password]" placeholder="Password" value="">
+    </label>
+
+    <br><br>
+    <button class="signupbutton" name="Sign In">Sign In</button>
+
+  </form>
+
+<br><br>
+<div class="signupauth">
+  Don't have an account? <strong><a href="/guests/new">Sign up for one</a></strong>
+</div>
