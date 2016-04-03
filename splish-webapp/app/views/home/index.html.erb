@@ -2,23 +2,30 @@
   <%= render 'layouts/header' %>
 <% end %>
 
+<div id="test">
 
+</div>
 <div class="container-fluid" ng-app="splish" ng-controller="EventController">
-  <md-button id="event-button" name="Create an Event" ng-show="{{user_id}}" class="md-primary md-raised" ng-click="showConfirm($event)" >
+  <md-button id="event-button" name="Create an Event" ng-show="{{user_id}}" class="md-primary md-raised" ng-click="showNewEventModal($event)" >
     Create an Event
   </md-button>
   <div class="panel panel-success">
     <div class="panel-heading" >
+
       <div ng-show="newEventReceived" class="events" ng-repeat="event in newEvents" style="border: 1px solid #fff;">
         <h1 ng-if="$first">NEWLY CREATED EVENTS</h1>
         <h1>{{event.title}}</h1>
         <p><span ng-hide="event.start_date == event.end_date">From: {{event.start_date | date:'medium'}} to </span>{{event.end_date | date:'medium'}}</p>
         <p>{{event.description}}</p>
       </div>
+
       <div class="events" ng-repeat="event in events" style="border: 1px solid #fff;">
         <h1>{{event.title}}</h1>
         <p><span ng-hide="event.start_date == event.end_date">From: {{event.start_date | date:'medium'}} to </span>{{event.end_date | date:'medium'}}</p>
         <p>{{event.description}}</p>
+        <md-button ng-show="user_id == event.owner_id" id="event-edit-button" name="Edit this Event" class="md-primary md-raised" ng-click="showEditEventModal($event, event)" >
+          Edit this Event
+        </md-button>
       </div>
     </div>
 

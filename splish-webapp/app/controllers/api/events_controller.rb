@@ -37,13 +37,20 @@ class Api::EventsController < ApplicationController
 
   def update
     @event = Event.find(params[:id])
-    if @event.update(listing_params)
-      render :show
-      # redirect_to listing_url(@event.id)
+
+    data = JSON.parse(params.flatten()[0])
+    data = (data["data"])
+
+    data.each do |k, v|
+      if data[k] != nil
+        @event[k] = data[k]
+      end
+    end
+
+    if @event.save()
+      head :ok, content_type: "text/html"
     else
       render json: Event.new(listing_params).errors.full_messages, status: 422
-      # flash.now[:errors] = Event.new(listing_params).errors.full_messages
-      # render :edit
     end
   end
 
