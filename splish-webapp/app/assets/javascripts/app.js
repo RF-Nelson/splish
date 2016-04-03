@@ -48,15 +48,15 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
 
   $scope.showConfirm = function(ev) {
     $mdDialog.show({template :
-      '<form name="messageForm" ng-controller="EventController" ng-submit="submitForm()"' +
-        '<label>Event title<input type="text" name="title" ng-model=message.title value="Event Title"></label>' +
+      '<form id="modal-form" name="messageForm" ng-controller="EventController" ng-submit="submitForm()"' +
+        '<label>Event title<input id="title" type="text" name="title" ng-model=message.title value="Event Title"></label>' +
         '<br>' +
-        '<label>Start Date<input type="date" name="start_date" ng-model=message.start_date value="Start Date"></label>' +
+        '<label id="start_date">Start Date<input type="date" name="start_date" ng-model=message.start_date value="Start Date"></label>' +
         '<br>' +
-        '<label>End Date<input type="date" name="end_date" ng-model=message.end_date value="End Date"></label>' +
+        '<label id="start_date">End Date<input type="date" name="end_date" ng-model=message.end_date value="End Date"></label>' +
         '<br>' +
         '<div class="google-map">' +
-          '<md-autocomplete md-no-cache="true"' +
+          '<md-autocomplete id="Location" md-no-cache="true"' +
              'md-selected-item="selectedItem"' +
              'md-selected-item-change="selectedItemChange(item)"' +
              'md-search-text-change="search(searchText); selectedItemChange(searchText)"' +
@@ -71,7 +71,7 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
           '</md-autocomplete>' +
         '</div>' +
         '<br>' +
-        '<label>Description<textarea name="description" ng-model=message.description rows="8" cols="40">Describe your event</textarea></label>' +
+        '<label id="description">Description<textarea name="description" ng-model=message.description rows="8" cols="40">Describe your event</textarea></label>' +
         '<br>' +
         '<button name="Create New Event" type="submit" class="btn btn-primary">Create New Event</button>' +
       '</form>'

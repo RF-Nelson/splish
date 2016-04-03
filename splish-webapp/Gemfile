@@ -58,6 +58,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'respec'
   gem "rspec-rails"
+  gem 'capybara'
 end
 
 group :development do
@@ -67,6 +68,5 @@ end
 
 group :test do
   gem 'guard-rspec'
-  gem 'capybara'
   gem "shoulda-matchers"
 end
