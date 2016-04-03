@@ -24,7 +24,7 @@ app.factory('eventService', ['$http', function($http) {
   return eventService;
 }]);
 
-app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$q', '$timeout', '$rootScope', 'eventService', function($scope, $http, $pusher, $mdDialog, $q, $timeout, $rootScope, eventService) {
+app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$q', '$timeout', '$rootScope', 'eventService', '$mdToast', function($scope, $http, $pusher, $mdDialog, $q, $timeout, $rootScope, eventService, $mdToast) {
   eventService.getEvents().then(function(events) {
     $scope.events = events;
   })
@@ -68,6 +68,28 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
   $scope.message = {};
 
   $scope.submitForm = function () {
+    var message = "Your event is missing "
+
+    if (!$scope.message.location) {
+      $scope.showActionToast(message + "a location.")
+      return
+    } else if (!$scope.message.description) {
+      $scope.showActionToast(message + "a description.")
+      return
+    } else if (!$scope.message.title) {
+      $scope.showActionToast(message + "a title.")
+      return
+    } else if (!$scope.message.start_date) {
+      $scope.showActionToast(message + "a start date.")
+      return
+    } else if (!$scope.message.end_date) {
+      $scope.showActionToast(message + "an end date.")
+      return
+    } else if (new Date($scope.message.start_date).getDate() > new Date($scope.message.end_date).getDate()) {
+      $scope.showActionToast("Please make sure the end date comes after the start date of your event.")
+      return
+    }
+
     $scope.message.owner_id = $scope.user_id;
     $http({
       method  : 'POST',
@@ -100,7 +122,7 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
 
   $scope.showNewEventModal = function(ev) {
     $mdDialog.show({template :
-      '<form id="modal-form" name="messageForm" ng-controller="EventController" ng-submit="submitForm()"' +
+      '<form id="modal-form" name="messageForm" ng-controller="EventController" ng-submit="submitForm()">' +
         '<label>Event title<input id="title" type="text" name="title" ng-model="message.title" value="Event Title"></label>' +
         '<br>' +
         '<label id="start_date">Start Date<input type="date" name="start_date" ng-model="message.start_date" value="Start Date"></label>' +
@@ -126,7 +148,8 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
         '<label id="description">Description<textarea name="description" ng-model="message.description" rows="8" cols="40">Describe your event</textarea></label>' +
         '<br>' +
         '<button name="Create New Event" type="submit" class="btn btn-primary">Create New Event</button>' +
-      '</form>'
+      '</form>',
+      clickOutsideToClose: true
     })
   };
 
@@ -134,7 +157,7 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
     $scope.message = {};
 
     $mdDialog.show({template :
-      '<form id="modal-form" name="messageForm" ng-controller="EventController" ng-submit="submitEditForm(' + event.id + ')"' +
+      '<form id="modal-form" name="messageForm" ng-controller="EventController" ng-submit="submitEditForm(' + event.id + ')">' +
         '<label>Event title<input id="title" type="text" name="title" ng-model="message.title"></label>' +
         '<br>' +
         '<label id="start_date">Start Date<input id="start_date_picker" type="date" name="start_date" ng-model="message.start_date" ></label>' +
@@ -157,10 +180,11 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
           '</md-autocomplete>' +
         '</div>' +
         '<br>' +
-        '<label id="description">Description<textarea id="event_description" name="description" ng-model="message.description" rows="8" cols="40" ng-init="message.description =' + event.description + '" value="' + event.description + '"></textarea></label>' +
+        '<label id="description">Description<textarea id="event_description" name="description" ng-model="message.description" rows="8" cols="40" ng-init="message.description =\'' + event.description + '\'" value="' + event.description + '"></textarea></label>' +
         '<br>' +
         '<button name="Change Event" type="submit" class="btn btn-primary">Change Event</button>' +
-      '</form>'
+      '</form>',
+      clickOutsideToClose: true
     })
 
     var startDateString = event.start_date.substring(0,10);
@@ -169,8 +193,8 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
     setTimeout(function () {
       angular.element("#start_date_picker").val(startDateString)
       angular.element("#end_date_picker").val(endDateString)
-      angular.element("#event_description").val(event.description)
-      angular.element("#input-0").val(event.location)
+      var dateInputID = '#' + document.querySelector('[id^="input-"]').id;
+      angular.element(dateInputID).val(event.location)
       angular.element("#title").val(event.title)
     }, 10)
   }
@@ -178,6 +202,7 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
   $scope.gmapsService = new google.maps.places.AutocompleteService();
 
   $scope.search = search;
+
 
   function search(address) {
     if (address) {
@@ -208,6 +233,41 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
   $scope.selectedItemChange = function (item) {
     $scope.message.location = item;
   }
+
+  var last = {
+      bottom: false,
+      top: true,
+      left: false,
+      right: true
+    };
+  $scope.toastPosition = angular.extend({},last);
+  $scope.getToastPosition = function() {
+    sanitizePosition();
+    return Object.keys($scope.toastPosition)
+      .filter(function(pos) { return $scope.toastPosition[pos]; })
+      .join(' ');
+  };
+
+  function sanitizePosition() {
+    var current = $scope.toastPosition;
+    if ( current.bottom && last.top ) current.top = false;
+    if ( current.top && last.bottom ) current.bottom = false;
+    if ( current.right && last.left ) current.left = false;
+    if ( current.left && last.right ) current.right = false;
+    last = angular.extend({},current);
+  }
+
+  $scope.showActionToast = function(text) {
+    var toast = $mdToast.simple()
+          .textContent(text)
+          .hideDelay(3000)
+          .position($scope.getToastPosition());
+    $mdToast.show(toast).then(function(response) {
+      if ( response == 'ok' ) {
+        alert('You clicked \'OK\'.');
+      }
+    });
+  };
 
 }]);
 

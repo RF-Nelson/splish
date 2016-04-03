@@ -15,13 +15,13 @@
       <div ng-show="newEventReceived" class="events" ng-repeat="event in newEvents" style="border: 1px solid #fff;">
         <h1 ng-if="$first">NEWLY CREATED EVENTS</h1>
         <h1>{{event.title}}</h1>
-        <p><span ng-hide="event.start_date == event.end_date">From: {{event.start_date | date:'medium'}} to </span>{{event.end_date | date:'medium'}}</p>
+        <p><span ng-hide="event.start_date == event.end_date">From: {{event.start_date | date:'mediumDate'}} to </span>{{event.end_date | date:'mediumDate'}}</p>
         <p>{{event.description}}</p>
       </div>
 
       <div class="events" ng-repeat="event in events" style="border: 1px solid #fff;">
         <h1>{{event.title}}</h1>
-        <p><span ng-hide="event.start_date == event.end_date">From: {{event.start_date | date:'medium'}} to </span>{{event.end_date | date:'medium'}}</p>
+        <p><span ng-hide="event.start_date == event.end_date">From: {{event.start_date | date:'mediumDate'}} to </span>{{event.end_date | date:'mediumDate'}}</p>
         <p>{{event.description}}</p>
         <md-button ng-show="user_id == event.owner_id" id="event-edit-button" name="Edit this Event" class="md-primary md-raised" ng-click="showEditEventModal($event, event)" >
           Edit this Event
