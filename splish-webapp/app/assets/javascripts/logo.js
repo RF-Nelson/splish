@@ -1,15 +1,10 @@
 (function() {
   setTimeout(function () {
-    /**
-  	 * checks if a number is Odd
-  	 */
+
   	function isOdd(n) {
   		return Math.abs(n % 2) == 1;
   	}
 
-  	/**
-  	 * returns a random number between min and max
-  	 */
   	function randomIntFromInterval(min,max) {
   		return Math.floor(Math.random()*(max-min+1)+min);
   	}
@@ -40,10 +35,8 @@
   					word.setAttribute('data-state', 'stop');
   				};
 
-  			// show word
   			instance.showInstantly();
 
-  			// moo.js configurations for some of the buttons
   			var timelines = {};
 
   			if ( pos === 7 ) {

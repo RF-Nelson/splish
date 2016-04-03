@@ -1,4 +1,4 @@
-var app = angular.module('splish',['ngMaterial', 'pusher-angular', 'ng-rails-csrf']);
+var app = angular.module('splish',['ngMaterial', 'pusher-angular', 'ng-rails-csrf', 'ngMaterialDatePicker']);
 
 app.factory('eventService', ['$http', function($http) {
   var eventService = {};
@@ -28,6 +28,8 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
   eventService.getEvents().then(function(events) {
     $scope.events = events;
   })
+
+  $scope.dateTimeStart;
 
   $rootScope.$watch(
     function () {
@@ -125,9 +127,9 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
       '<form id="modal-form" name="messageForm" ng-controller="EventController" ng-submit="submitForm()">' +
         '<label>Event title<input id="title" type="text" name="title" ng-model="message.title" value="Event Title"></label>' +
         '<br>' +
-        '<label id="start_date">Start Date<input type="date" name="start_date" ng-model="message.start_date" value="Start Date"></label>' +
+        '<label id="start_date">Start Date<input type="datetime-local" name="start_date" ng-model="message.start_date" value="Start Date"></label>' +
         '<br>' +
-        '<label id="start_date">End Date<input type="date" name="end_date" ng-model="message.end_date" value="End Date"></label>' +
+        '<label id="start_date">End Date<input type="datetime-local" name="end_date" ng-model="message.end_date" value="End Date"></label>' +
         '<br>' +
         '<div class="google-map">' +
           '<md-autocomplete id="Location" md-no-cache="true"' +

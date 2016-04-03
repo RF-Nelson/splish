@@ -17,6 +17,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require angular/angular
+//= require ./vendor/moment.js
+//= require ./vendor/angular-material-datetimepicker.min.js
 //= require ng-rails-csrf
 //= require ./logo.js
 //= require_self

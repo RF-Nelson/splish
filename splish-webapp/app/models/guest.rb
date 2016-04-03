@@ -7,11 +7,7 @@ class Guest < ActiveRecord::Base
 
   attr_reader :password
 
-  has_many( :events,
-    class_name: "Event",
-    foreign_key: :owner_id,
-    primary_key: :id
-  )
+  has_and_belongs_to_many :events
 
   def self.find_by_credentials(username, password)
     user = Guest.all.find_by(email: username)
