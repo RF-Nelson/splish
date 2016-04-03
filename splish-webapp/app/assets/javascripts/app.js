@@ -22,12 +22,18 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
   })//.then(function () {
   // })
 
-  $scope.dialog;
+  var getFormToken = function () {
+    var dataDiv = document.getElementById('div-item-data');
+    if (dataDiv) {
+      return dataDiv.getAttribute('data-form-token');
+    }
+  }
 
   $scope.message = {};
 
   $scope.submitForm = function () {
     $scope.message.owner_id = $scope.user_id;
+    // $scope.message.authenticity_token = getFormToken();
     $http({
       method  : 'POST',
       url     : './api/events/',
