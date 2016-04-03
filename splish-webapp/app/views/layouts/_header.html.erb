@@ -1,6 +1,25 @@
 <div class="header_parent">
   <div class="header">
-    <h1 class=logo>Splish</h1>
+    <script type="text/javascript">
+      window.onload = function () {
+        $('.list__item--burst').toggleClass('hidden')
+        $('.control__button--play').click()
+      }
+    </script>
+		</svg>
+			<section class="content">
+				<ul class="list">
+					<li class="list__item list__item--burst color-12 hidden">
+						<h3 class="list__text">SPLISH</h3>
+						<button class="control__button control__button--play" aria-label="Trigger animation">
+							<svg class="control__vector" aria-hidden="true" role="img" viewBox="0 0 24 24">
+								<use xlink:href="#icon-play"></use>
+							</svg>
+						</button>
+					</li>
+				</ul>
+			</section>
+
       <% if signed_in? %>
 
         <div class="authed" id="div-item-data" data-user-id="<%= current_user.id %>" >
