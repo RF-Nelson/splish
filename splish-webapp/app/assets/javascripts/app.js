@@ -73,7 +73,7 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
         '<br>' +
         '<label>Description<textarea name="description" ng-model=message.description rows="8" cols="40">Describe your event</textarea></label>' +
         '<br>' +
-        '<button type="submit" class="btn btn-primary">Create New Event</button>' +
+        '<button name="Create New Event" type="submit" class="btn btn-primary">Create New Event</button>' +
       '</form>'
     })
   };
