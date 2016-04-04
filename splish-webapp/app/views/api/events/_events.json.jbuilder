@@ -1,4 +1,2 @@
 json.extract!(event,
-  :id, :title, :description, :start_date, :end_date, :owner_id, :location)
-
-# json.signed_in @signed_in?
+  :id, :title, :description, :start_date, :end_date, :owner_id, :location, :guests)

@@ -32,10 +32,29 @@
         <p>{{event.description}}</p>
       </div>
 
-      <div class="events" ng-repeat="event in events" style="border: 1px solid #fff;">
+      <div class="events" ng-repeat="event in events | filter: filterForTBD" style="border: 1px solid #fff;">
         <h1>{{event.title}}</h1>
         <p><span ng-hide="event.start_date == event.end_date">From: {{event.start_date | date:'mediumDate'}} to </span>{{event.end_date | date:'mediumDate'}}</p>
+        <p ng-show="event.start_date == null || event.end_date == null" >TBD</p>
         <p>{{event.description}}</p>
+        <p ng-show="event.guests.length > 0">There are {{event.guests.length}} people RSVP'd for this event.</p>
+        <md-button class="md-primary md-raised" ng-show="{{user_id}}" ng-click="rsvp(event.id)">
+          RSVP to this Event
+        </md-button>
+        <md-button ng-show="user_id == event.owner_id" id="event-edit-button" name="Edit this Event" class="md-primary md-raised" ng-click="showEditEventModal($event, event)" >
+          Edit this Event
+        </md-button>
+      </div>
+
+      <div class="events" ng-repeat="event in events | filter: filterForNotTBD | orderBy:predicate:reverse" style="border: 1px solid #fff;">
+        <h1>{{event.title}}</h1>
+        <p><span ng-hide="event.start_date == event.end_date">From: {{event.start_date | date:'mediumDate'}} to </span>{{event.end_date | date:'mediumDate'}}</p>
+        <p ng-show="event.start_date == null || event.end_date == null" >TBD</p>
+        <p>{{event.description}}</p>
+        <p ng-show="event.guests.length > 0">There are {{event.guests.length}} people RSVP'd for this event.</p>
+        <md-button class="md-primary md-raised" ng-show="{{user_id}}" ng-click="rsvp(event.id)">
+          RSVP to this Event
+        </md-button>
         <md-button ng-show="user_id == event.owner_id" id="event-edit-button" name="Edit this Event" class="md-primary md-raised" ng-click="showEditEventModal($event, event)" >
           Edit this Event
         </md-button>

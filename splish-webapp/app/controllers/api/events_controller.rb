@@ -41,9 +41,16 @@ class Api::EventsController < ApplicationController
     data = JSON.parse(params.flatten()[0])
     data = (data["data"])
 
-    data.each do |k, v|
-      if data[k] != nil
-        @event[k] = data[k]
+    if (data["rsvp"])
+      user_id = data["rsvp"]
+      guest = Guest.find_by_id(user_id)
+      @event.guests.push(guest) if @event.guests.include?(guest) == false
+      guest.events.push(@event) if guest.events.include?(@event) == false
+    else
+      data.each do |k, v|
+        if data[k] != nil
+          @event[k] = data[k]
+        end
       end
     end
 

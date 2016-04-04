@@ -29,6 +29,20 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
     $scope.events = events;
   })
 
+  $scope.filterForTBD = function(element) {
+    if (!element.start_date) {
+      return element;
+    }
+  };
+
+  $scope.filterForNotTBD = function(element) {
+    if (element.start_date) {
+      return element;
+    }
+  };
+
+  $scope.predicate = 'start_date';
+  $scope.reverse = false;
   $scope.dateTimeStart;
 
   $rootScope.$watch(
@@ -81,12 +95,14 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
     } else if (!$scope.message.title) {
       $scope.showActionToast(message + "a title.")
       return
-    } else if (!$scope.message.start_date) {
-      $scope.showActionToast(message + "a start date.")
-      return
-    } else if (!$scope.message.end_date) {
-      $scope.showActionToast(message + "an end date.")
-      return
+    // } else if (!$scope.message.start_date) {
+      // $scope.showActionToast(message + "a start date.")
+      // $scope.message.message.start_date = ''
+      // return
+    // } else if (!$scope.message.end_date) {
+      // $scope.showActionToast(message + "an end date.")
+      // $scope.message.message.end_date = ''
+      // return
     } else if (new Date($scope.message.start_date).getDate() > new Date($scope.message.end_date).getDate()) {
       $scope.showActionToast("Please make sure the end date comes after the start date of your event.")
       return
@@ -100,6 +116,7 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
       headers : {'Content-Type': 'application/x-www-form-urlencoded'}
     }).then(function (data) {
       if (data.status === 200) {
+        $scope.message = {};
         $mdDialog.hide()
       }
     })
@@ -116,11 +133,25 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
         $mdDialog.hide()
         $http.get('/api/events/' + id).then(function (response) {
           $scope.events = eventService.updateEvent(response.data);
+          $scope.message = {};
         })
       }
     })
   }
 
+  $scope.rsvp = function (eventID) {
+    var data = {rsvp: $scope.user_id}
+    $http({
+      method  : 'PUT',
+      url     : './api/events/' + eventID,
+      data    : { data: data },
+      headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+    }).then(function (data) {
+      if (data.status === 200) {
+      // FUNCTION TO SHOW ON THE FRONT END THAT THE USER HAS RSVP'd
+      }
+    })
+  }
 
   $scope.showNewEventModal = function(ev) {
     $mdDialog.show({template :
