@@ -46,6 +46,11 @@ class Api::EventsController < ApplicationController
       guest = Guest.find_by_id(user_id)
       @event.guests.push(guest) if @event.guests.include?(guest) == false
       guest.events.push(@event) if guest.events.include?(@event) == false
+    elsif (data["dersvp"])
+      user_id = data["dersvp"]
+      guest = Guest.find_by_id(user_id)
+      guest.events.delete(@event)
+      @event.guests.delete(guest)
     else
       data.each do |k, v|
         if data[k] != nil

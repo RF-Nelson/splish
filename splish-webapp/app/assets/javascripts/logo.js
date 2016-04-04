@@ -14,9 +14,9 @@
   			size : 200,
   			weight : 15,
   			color: '#3F51B5',
-  			duration: 1,
-  			fade: 1.5,
-  			delay: 0.2,
+  			duration: 2,
+  			fade: 5,
+  			delay: 0.4,
   			easing: d3_ease.easeExpInOut.ease
   		}
   	],

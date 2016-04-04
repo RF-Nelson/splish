@@ -146,11 +146,40 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
       url     : './api/events/' + eventID,
       data    : { data: data },
       headers : {'Content-Type': 'application/x-www-form-urlencoded'}
-    }).then(function (data) {
-      if (data.status === 200) {
-      // FUNCTION TO SHOW ON THE FRONT END THAT THE USER HAS RSVP'd
+      }).then(function (data) {
+        if (data.status === 200) {
+          $http.get('/api/events/' + eventID).then(function (response) {
+            $scope.events = eventService.updateEvent(response.data);
+          })
+        }
+      })
+    }
+
+  $scope.dersvp = function (eventID) {
+    var data = {dersvp: $scope.user_id}
+    $http({
+      method  : 'PUT',
+      url     : './api/events/' + eventID,
+      data    : { data: data },
+      headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+      }).then(function (data) {
+        if (data.status === 200) {
+          $http.get('/api/events/' + eventID).then(function (response) {
+            $scope.events = eventService.updateEvent(response.data);
+          })
+        }
+      })
+    }
+
+  $scope.checkIfRSVPd = function (event) {
+    // console.log(event.guests);
+    // console.log($scope.user_id);
+    for (var i = 0; i < event.length; i++) {
+      if (event[i].id == $scope.user_id) {
+        return true;
       }
-    })
+    }
+    return false;
   }
 
   $scope.showNewEventModal = function(ev) {
@@ -220,12 +249,23 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
       clickOutsideToClose: true
     })
 
-    var startDateString = event.start_date.substring(0,10);
-    var endDateString = event.end_date.substring(0,10);
+    if (event.start_date && event.end_date) {
+      var datesPresent = true;
+    }
 
+    if (datesPresent) {
+      var startDateString = event.start_date.substring(0,10);
+      var endDateString = event.end_date.substring(0,10);
+    }
+
+    // THE MATERIAL DESIGN DIALOG DOESN'T LIKE TO HAVE FORMS IN IT, SO WHEN
+    // WE HOW THE USER THE EDIT-EVENT DIALOG, WE MANUALLY INJECT THE MODEL'S
+    // PROPERTIES DIRECTLY INTO THE FORM.
     setTimeout(function () {
-      angular.element("#start_date_picker").val(startDateString)
-      angular.element("#end_date_picker").val(endDateString)
+      if (datesPresent) {
+        angular.element("#start_date_picker").val(startDateString)
+        angular.element("#end_date_picker").val(endDateString)
+      }
       var dateInputID = '#' + document.querySelector('[id^="input-"]').id;
       angular.element(dateInputID).val(event.location)
       angular.element("#title").val(event.title)

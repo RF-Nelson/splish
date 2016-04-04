@@ -38,8 +38,11 @@
         <p ng-show="event.start_date == null || event.end_date == null" >TBD</p>
         <p>{{event.description}}</p>
         <p ng-show="event.guests.length > 0">There are {{event.guests.length}} people RSVP'd for this event.</p>
-        <md-button class="md-primary md-raised" ng-show="{{user_id}}" ng-click="rsvp(event.id)">
+        <span ng-show={{user_id}}><md-button class="md-primary md-raised" ng-hide="checkIfRSVPd(event.guests)" ng-click="rsvp(event.id)">
           RSVP to this Event
+        </md-button></span>
+        <md-button ng-show="checkIfRSVPd(event.guests)" class="md-primary md-raised" ng-click="dersvp(event.id)">
+          Cancel Your RSVP
         </md-button>
         <md-button ng-show="user_id == event.owner_id" id="event-edit-button" name="Edit this Event" class="md-primary md-raised" ng-click="showEditEventModal($event, event)" >
           Edit this Event
@@ -52,8 +55,11 @@
         <p ng-show="event.start_date == null || event.end_date == null" >TBD</p>
         <p>{{event.description}}</p>
         <p ng-show="event.guests.length > 0">There are {{event.guests.length}} people RSVP'd for this event.</p>
-        <md-button class="md-primary md-raised" ng-show="{{user_id}}" ng-click="rsvp(event.id)">
+        <span ng-show={{user_id}}><md-button class="md-primary md-raised" ng-hide="checkIfRSVPd(event.guests)" ng-click="rsvp(event.id)">
           RSVP to this Event
+        </md-button></span>
+        <md-button class="md-primary md-raised" ng-show="checkIfRSVPd(event.guests)" ng-click="dersvp(event.id)">
+          Cancel Your RSVP
         </md-button>
         <md-button ng-show="user_id == event.owner_id" id="event-edit-button" name="Edit this Event" class="md-primary md-raised" ng-click="showEditEventModal($event, event)" >
           Edit this Event
