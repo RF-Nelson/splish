@@ -70,17 +70,6 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
       $scope.newEvents.unshift(data.message);
     })
 
-  // $http.get('/api/events/').then(function (response) {
-  //   $scope.events = angular.fromJson(response.data);
-
-    // var parsedData = angular.fromJson(response.data);
-    // parsedData.forEach(function (event) {
-    //   $scope.events.push(event)
-    // })
-
-  // })//.then(function () {
-  // })
-
   $scope.message = {};
 
   $scope.submitForm = function () {
@@ -95,19 +84,11 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
     } else if (!$scope.message.title) {
       $scope.showActionToast(message + "a title.")
       return
-    // } else if (!$scope.message.start_date) {
-      // $scope.showActionToast(message + "a start date.")
-      // $scope.message.message.start_date = ''
-      // return
-    // } else if (!$scope.message.end_date) {
-      // $scope.showActionToast(message + "an end date.")
-      // $scope.message.message.end_date = ''
-      // return
     } else if (new Date($scope.message.start_date).getDate() > new Date($scope.message.end_date).getDate()) {
       $scope.showActionToast("Please make sure the end date comes after the start date of your event.")
       return
     }
-
+    $scope.message.location = locationInput.value
     $scope.message.owner_id = $scope.user_id;
     $http({
       method  : 'POST',
@@ -117,12 +98,18 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
     }).then(function (data) {
       if (data.status === 200) {
         $scope.message = {};
-        $mdDialog.hide()
+
+        //RESET INPUT FIELD
+        var fields = document.getElementsByClassName("input--filled")
+        Array.prototype.slice.call(fields).forEach(function (field) {
+          $(field).removeClass("input--filled")
+        })
       }
     })
   }
 
-  $scope.submitEditForm = function (id) {
+  $scope.submitEditForm = function () {
+    id = window.editingEventID;
     $http({
       method  : 'PUT',
       url     : './api/events/' + id,
@@ -130,13 +117,14 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
       headers : {'Content-Type': 'application/x-www-form-urlencoded'}
     }).then(function (data) {
       if (data.status === 200) {
-        $mdDialog.hide()
         $http.get('/api/events/' + id).then(function (response) {
           $scope.events = eventService.updateEvent(response.data);
           $scope.message = {};
         })
       }
     })
+
+    window.editingEventID = null;
   }
 
   $scope.rsvp = function (eventID) {
@@ -172,8 +160,6 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
     }
 
   $scope.checkIfRSVPd = function (event) {
-    // console.log(event.guests);
-    // console.log($scope.user_id);
     for (var i = 0; i < event.length; i++) {
       if (event[i].id == $scope.user_id) {
         return true;
@@ -181,6 +167,17 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
     }
     return false;
   }
+
+  var submitForm = document.getElementById('modal-form');
+  var locationInput = document.getElementById('autocomplete');
+  setTimeout(function () {
+    google.maps.event.addListener(locationInput, 'place_changed', function() {
+      var place = autocompleteFrom.getPlace();
+      $scope.message.location = place;
+      $scope.$apply()
+    });
+  }, 1000)
+
 
   $scope.showNewEventModal = function(ev) {
     $mdDialog.show({template :
@@ -276,6 +273,17 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
 
   $scope.search = search;
 
+  $scope.fillEditField = function(event) {
+    $('.md-effect-8').addClass('md-show')
+    window.editingEventID = event.id
+    var values = [event.title, event.description, event.location, event.start_date, event.end_date]
+    var fields = $('.edit-modal-form').children()
+    for (var i = 0; i < fields.length - 1; i++) {
+      angular.element($(fields[i]).children()[0]).val(values[i])
+      angular.element($(fields[i]).children()[0]).addClass('input--filled')
+
+    }
+  }
 
   function search(address) {
     if (address) {

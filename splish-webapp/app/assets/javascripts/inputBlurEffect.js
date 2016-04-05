@@ -11,8 +11,6 @@
   		})();
   	}
 
-
-
   	[].slice.call( document.querySelectorAll( 'input.input__field' ) ).forEach( function( inputEl ) {
   		addEventListener(inputEl)
   	} );

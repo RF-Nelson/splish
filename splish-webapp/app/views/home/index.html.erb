@@ -3,60 +3,7 @@
 <% end %>
 
 
-<button class="md-trigger" data-modal="modal-9">3D Flip (vertical)</button>
-<div class="md-modal md-effect-9" id="modal-9">
-	<div class="md-content">
-		<h3>create an event</h3>
-		<div>
-      <section class="event-form">
-      	<span class="input input--styled">
-      		<input class="input__field input__field--styled" type="text" placeholder="What is your event called?" />
-      		<label class="input__label input__label--styled">
-      			<span class="input__label-content input__label-content--styled">Event Title</span>
-      		</label>
-      	</span>
-        <span class="input input--styled">
-          <textarea class="input__field input__field--styled" name="description" ng-model="message.description" rows="8" cols="40" placeholder="Tell us more about your event...">
-            Describe your event
-          </textarea>
-          <label class="input__label input__label--styled textarea" id="description">
-            <span class="input__label-content input__label-content--styled">Description</span>
-          </label>
-        </span>
-
-        <span class="input input--styled">
-          <input id="autocomplete" class="input__field input__field--styled md-input" placeholder="Where is your event is taking place?" type="text" />
-          <label class="input__label input__label--styled">
-            <span class="input__label-content input__label-content--styled">
-              Location
-            </span>
-          </label>
-        </span>
-
-        <span class="input input--styled">
-          <input mdc-datetime-picker="" class="input__field input__field--styled md-input" ng-model="date" short-time="true" date="true" time="true" type="text"
-          placeholder="Start Date" max-date="dateTimeEnd" id="input_0" format="YYYY-MM-DD HH:mm" />
-          <label class="input__label input__label--styled">
-            <span class="input__label-content input__label-content--styled">
-              Start Date/Time
-            </span>
-          </label>
-        </span>
-        <span class="input input--styled">
-          <input mdc-datetime-picker="" class="input__field input__field--styled md-input" ng-model="date" short-time="true" date="true" time="true" type="text"
-          placeholder="End Date" min-date="dateTimeStart"="dateTimeEnd" id="input_1" format="YYYY-MM-DD HH:mm" />
-          <label class="input__label input__label--styled">
-            <span class="input__label-content input__label-content--styled">
-              End Date/Time
-            </span>
-          </label>
-        </span>
-      </section>
-			<button class="md-close">Close me!</button>
-		</div>
-	</div>
-</div>
-<div class="md-overlay"></div>
+<md-button class="md-trigger md-primary md-raised" data-modal="modal-9">Create Event</md-button>
 
 <div class="container-fluid">
   <div class="range layout-column flex-gt-md-30" >
@@ -87,9 +34,7 @@
         <md-button ng-show="checkIfRSVPd(event.guests)" class="md-primary md-raised" ng-click="dersvp(event.id)">
           Cancel Your RSVP
         </md-button>
-        <md-button ng-show="user_id == event.owner_id" id="event-edit-button" name="Edit this Event" class="md-primary md-raised" ng-click="showEditEventModal($event, event)" >
-          Edit this Event
-        </md-button>
+        <md-button ng-show="user_id == event.owner_id" ng-click="fillEditField(event)" class=" md-primary md-raised" data-modal="modal-9">Edit Event</md-button>
       </div>
 
       <div class="events" ng-repeat="event in events | filter: filterForNotTBD | orderBy:predicate:reverse" style="border: 1px solid #fff;">
@@ -111,3 +56,115 @@
     </div>
   </div>
 </div>
+
+<div class="md-modal md-effect-9" id="modal-9">
+	<div class="md-content">
+		<h3>create an event</h3>
+		<div>
+      <section class="event-form">
+        <form id="modal-form" name="messageForm" ng-submit="submitForm()" class="ang-form">
+      	<span class="input input--styled">
+      		<input ng-model="message.title" class="input__field input__field--styled" type="text" placeholder="What is your event called?" />
+      		<label class="input__label input__label--styled">
+      			<span class="input__label-content input__label-content--styled">Event Title</span>
+      		</label>
+      	</span>
+        <span class="input input--styled" ng-model="message.description">
+          <textarea class="input__field input__field--styled" name="description" ng-model="message.description" rows="8" cols="40" placeholder="Tell us more about your event...">
+            Describe your event
+          </textarea>
+          <label class="input__label input__label--styled textarea" id="description">
+            <span class="input__label-content input__label-content--styled">Description</span>
+          </label>
+        </span>
+
+        <span class="input input--styled">
+          <input id="autocomplete" ng-model="message.location" class="input__field input__field--styled md-input" placeholder="Where is your event is taking place?" type="text" />
+          <label class="input__label input__label--styled">
+            <span class="input__label-content input__label-content--styled">
+              Location
+            </span>
+          </label>
+        </span>
+
+        <span class="input input--styled">
+          <input mdc-datetime-picker="" class="input__field input__field--styled md-input" ng-model="message.start_date" short-time="true" date="true" time="true" type="text"
+          placeholder="Start Date" max-date="dateTimeEnd" id="input_0" format="YYYY-MM-DD hh:mm a" />
+          <label class="input__label input__label--styled">
+            <span class="input__label-content input__label-content--styled">
+              Start Date/Time
+            </span>
+          </label>
+        </span>
+        <span class="input input--styled">
+          <input mdc-datetime-picker="" short-time="true" class="input__field input__field--styled md-input" ng-model="message.end_date"  date="true" time="true" type="text"
+          placeholder="End Date" min-date="dateTimeStart"="dateTimeEnd" id="input_1" format="YYYY-MM-DD hh:mm a" />
+          <label class="input__label input__label--styled">
+            <span class="input__label-content input__label-content--styled">
+              End Date/Time
+            </span>
+          </label>
+        </span>
+        <button type="submit" class="md-close">Submit</button>
+      </form>
+      </section>
+		</div>
+	</div>
+</div>
+
+<div class="md-modal md-effect-8" id="modal-8">
+	<div class="md-content">
+		<h3>edit your event</h3>
+		<div>
+      <section class="event-form">
+        <form id="modal-form" name="messageForm" ng-submit="submitForm()" class="edit-modal-form">
+      	<span class="input input--styled">
+      		<input ng-model="message.title" class="input__field input__field--styled" type="text" placeholder="What is your event called?" />
+      		<label class="input__label input__label--styled">
+      			<span class="input__label-content input__label-content--styled">Event Title</span>
+      		</label>
+      	</span>
+        <span class="input input--styled" ng-model="message.description">
+          <textarea class="input__field input__field--styled" name="description" ng-model="message.description" rows="8" cols="40" placeholder="Tell us more about your event...">
+            Describe your event
+          </textarea>
+          <label class="input__label input__label--styled textarea" id="description">
+            <span class="input__label-content input__label-content--styled">Description</span>
+          </label>
+        </span>
+
+        <span class="input input--styled">
+          <input id="autocomplete" ng-model="message.location" class="input__field input__field--styled md-input" placeholder="Where is your event is taking place?" type="text" />
+          <label class="input__label input__label--styled">
+            <span class="input__label-content input__label-content--styled">
+              Location
+            </span>
+          </label>
+        </span>
+
+        <span class="input input--styled">
+          <input mdc-datetime-picker="" class="input__field input__field--styled md-input" ng-model="message.start_date" short-time="true" date="true" time="true" type="text"
+          placeholder="Start Date" max-date="dateTimeEnd" id="input_0" format="YYYY-MM-DD hh:mm a" />
+          <label class="input__label input__label--styled">
+            <span class="input__label-content input__label-content--styled">
+              Start Date/Time
+            </span>
+          </label>
+        </span>
+        <span class="input input--styled">
+          <input mdc-datetime-picker="" short-time="true" class="input__field input__field--styled md-input" ng-model="message.end_date"  date="true" time="true" type="text"
+          placeholder="End Date" min-date="dateTimeStart"="dateTimeEnd" id="input_1" format="YYYY-MM-DD hh:mm a" />
+          <label class="input__label input__label--styled">
+            <span class="input__label-content input__label-content--styled">
+              End Date/Time
+            </span>
+          </label>
+        </span>
+        <button type="submit" class="md-close">Submit</button>
+      </form>
+      </section>
+		</div>
+	</div>
+</div>
+
+<div class="md-overlay"></div>
