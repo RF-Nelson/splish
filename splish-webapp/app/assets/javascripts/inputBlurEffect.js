@@ -11,16 +11,26 @@
   		})();
   	}
 
+
+
   	[].slice.call( document.querySelectorAll( 'input.input__field' ) ).forEach( function( inputEl ) {
-  		// in case the input is already filled..
-  		if( inputEl.value.trim() !== '' ) {
+  		addEventListener(inputEl)
+  	} );
+
+    [].slice.call( document.querySelectorAll( 'textarea.input__field' ) ).forEach( function( inputEl ) {
+  		addEventListener(inputEl)
+  	} );
+
+    function addEventListener (inputEl) {
+      // in case the input is already filled..
+      if( inputEl.value.trim() !== '' ) {
   			classie.add( inputEl.parentNode, 'input--filled');
   		}
 
   		// events:
   		inputEl.addEventListener('focus', onInputFocus );
   		inputEl.addEventListener('blur', onInputBlur );
-  	} );
+    }
 
   	function onInputFocus( ev ) {
   		classie.add( ev.target.parentNode, 'input--filled');
@@ -31,6 +41,8 @@
   			classie.remove( ev.target.parentNode, 'input--filled');
   		}
   	}
+
+
   }, 1000)
 
 })();

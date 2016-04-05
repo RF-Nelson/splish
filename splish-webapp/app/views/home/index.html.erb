@@ -14,34 +14,54 @@
 			</ul>
       <section class="event-form">
       	<span class="input input--styled">
-      		<input class="input__field input__field--styled" type="text"/>
-      		<label class="input__label input__label--styled">
-      			<span class="input__label-content input__label-content--styled">Street</span>
-      		</label>
-      	</span>
-      	<span class="input input--styled">
-      		<input class="input__field input__field--styled"/>
-      		<label class="input__label input__label--styled">
-      			<span class="input__label-content input__label-content--styled">City</span>
-      		</label>
-      	</span>
-      	<span class="input input--styled">
       		<input class="input__field input__field--styled" type="text" />
       		<label class="input__label input__label--styled">
       			<span class="input__label-content input__label-content--styled">Region</span>
       		</label>
       	</span>
-        <md-input-container class="md-input-has-placeholder" >
-          <label>Start Date/Time</label>
-          <input mdc-datetime-picker="" ng-model="date" short-time="true" date="true" time="true" type="text"
-          placeholder="Date" max-date="dateTimeEnd" class=" md-input"
-          id="input_0">
-        </md-input-container>
-        <md-input-container class="md-input-has-placeholder">
-          <label>End Date/Time</label>
-          <input mdc-datetime-picker="" ng-model="date" short-time="true" date="true" time="true" type="text"
-          placeholder="Date" min-date="dateTimeStart"="dateTimeEnd" class=" md-input" id="input_1">
-        </md-input-container>
+        <span class="input input--styled">
+      		<input class="input__field input__field--styled" type="text" />
+      		<label class="input__label input__label--styled">
+      			<span class="input__label-content input__label-content--styled">Region</span>
+      		</label>
+      	</span>
+
+        <span class="input input--styled">
+
+          <textarea class="input__field input__field--styled" name="description" ng-model="message.description" rows="8" cols="40">
+            Describe your event
+          </textarea>
+          <label class="input__label input__label--styled textarea" id="description">
+            <span class="input__label-content input__label-content--styled">Description</span>
+          </label>
+        </span>
+
+        <span class="input input--styled">
+          <input class="input__field input__field--styled" id="title" type="text" name="title" ng-model="message.title" value="Event Title" />
+          <label class="input__label input__label--styled">
+            <span class="input__label-content input__label-content--styled">
+              Event title
+            </span>
+          </label>
+        </span>
+        <span class="input input--styled">
+          <input mdc-datetime-picker="" class="input__field input__field--styled md-input" ng-model="date" short-time="true" date="true" time="true" type="text"
+          placeholder="Date" max-date="dateTimeEnd" id="input_0" format="YYYY-MM-DD HH:mm" />
+          <label class="input__label input__label--styled">
+            <span class="input__label-content input__label-content--styled">
+              Start Date/Time
+            </span>
+          </label>
+        </span>
+        <span class="input input--styled">
+          <input mdc-datetime-picker="" class="input__field input__field--styled md-input" ng-model="date" short-time="true" date="true" time="true" type="text"
+          placeholder="Date" min-date="dateTimeStart"="dateTimeEnd" id="input_1" format="YYYY-MM-DD HH:mm" />
+          <label class="input__label input__label--styled">
+            <span class="input__label-content input__label-content--styled">
+              End Date/Time
+            </span>
+          </label>
+        </span>
       </section>
 			<button class="md-close">Close me!</button>
 		</div>

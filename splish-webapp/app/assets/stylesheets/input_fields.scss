@@ -22,7 +22,7 @@
   	color: #aaa;
   	font-weight: bold;
   	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  	-webkit-appearance: none; /* for box shadows to show on iOS */
+  	-webkit-appearance: none; // for box shadows to show on iOS 8
   }
 
   .input__field:focus {
@@ -97,6 +97,14 @@
   	transform-origin: 50% 100%;
   	-webkit-transition: -webkit-transform 0.3s;
   	transition: transform 0.3s;
+  }
+
+  textarea {
+    resize: none;
+  }
+
+  .textarea::before {
+    height: 18em;
   }
 
   .input__label--styled::after {
