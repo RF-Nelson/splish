@@ -2,9 +2,26 @@
   <%= render 'layouts/header' %>
 <% end %>
 
-<div id="test">
-
-</div>
+<section class="event-form">
+	<span class="input input--styled">
+		<input class="input__field input__field--styled" type="text" id="input-16" />
+		<label class="input__label input__label--styled" for="input-16">
+			<span class="input__label-content input__label-content--styled">Street</span>
+		</label>
+	</span>
+	<span class="input input--styled">
+		<input class="input__field input__field--styled" type="text" id="input-17" />
+		<label class="input__label input__label--styled" for="input-17">
+			<span class="input__label-content input__label-content--styled">City</span>
+		</label>
+	</span>
+	<span class="input input--styled">
+		<input class="input__field input__field--styled" type="text" id="input-18" />
+		<label class="input__label input__label--styled" for="input-18">
+			<span class="input__label-content input__label-content--styled">Region</span>
+		</label>
+	</span>
+</section>
 <div class="container-fluid" ng-app="splish" ng-controller="EventController">
   <div class="range layout-column flex-gt-md-30" >
     <md-input-container class="md-input-has-placeholder" >
