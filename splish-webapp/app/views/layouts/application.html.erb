@@ -2,21 +2,17 @@
 <html>
   <head>
     <title>Splish</title>
-    <!-- <link href='https://fonts.googleapis.com/css?family=Bitter' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Amatic+SC:700' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'> -->
     <%= stylesheet_link_tag    "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMZms2er49ODMvfbXUtO5ADbAY-VYIpiA&libraries=places"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-animate.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-aria.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-touch.js"></script>
     <link rel="stylesheet" href="https://material.angularjs.org/latest/angular-material.min.css"/>
 
     <%= favicon_link_tag 'favicon.ico' %>
   </head>
-  <body>
+  <body ng-app="splish" ng-controller="EventController">
     <!-- <%= render '/layouts/header' %> -->
     <%= render '/layouts/errors' %>
     <%= yield :header %>

@@ -10,6 +10,7 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require ./vendor/classie.js
 //= require ./vendor/mo.min.js
 //= require ./vendor/segment.min.js
 //= require ./vendor/d3-ease.v0.6.js
@@ -21,5 +22,6 @@
 //= require ./vendor/angular-material-datetimepicker.min.js
 //= require ng-rails-csrf
 //= require ./logo.js
+//= require ./modalEffect.js
 //= require_self
 //= require_tree .

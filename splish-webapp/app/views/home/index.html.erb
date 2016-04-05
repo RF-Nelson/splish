@@ -1,40 +1,57 @@
 <% content_for :header do  %>
   <%= render 'layouts/header' %>
 <% end %>
+<button class="md-trigger" data-modal="modal-9">3D Flip (vertical)</button>
+<div class="md-modal md-effect-9" id="modal-9">
+	<div class="md-content">
+		<h3>Modal Dialog</h3>
+		<div>
+			<p>This is a modal window. You can do the following things with it:</p>
+			<ul>
+				<li><strong>Read:</strong> modal windows will probably tell you something important so don't forget to read what they say.</li>
+				<li><strong>Look:</strong> a modal window enjoys a certain kind of attention; just look at it and appreciate its presence.</li>
+				<li><strong>Close:</strong> click on the button below to close the modal.</li>
+			</ul>
+      <section class="event-form">
+      	<span class="input input--styled">
+      		<input class="input__field input__field--styled" type="text"/>
+      		<label class="input__label input__label--styled">
+      			<span class="input__label-content input__label-content--styled">Street</span>
+      		</label>
+      	</span>
+      	<span class="input input--styled">
+      		<input class="input__field input__field--styled"/>
+      		<label class="input__label input__label--styled">
+      			<span class="input__label-content input__label-content--styled">City</span>
+      		</label>
+      	</span>
+      	<span class="input input--styled">
+      		<input class="input__field input__field--styled" type="text" />
+      		<label class="input__label input__label--styled">
+      			<span class="input__label-content input__label-content--styled">Region</span>
+      		</label>
+      	</span>
+        <md-input-container class="md-input-has-placeholder" >
+          <label>Start Date/Time</label>
+          <input mdc-datetime-picker="" ng-model="date" short-time="true" date="true" time="true" type="text"
+          placeholder="Date" max-date="dateTimeEnd" class=" md-input"
+          id="input_0">
+        </md-input-container>
+        <md-input-container class="md-input-has-placeholder">
+          <label>End Date/Time</label>
+          <input mdc-datetime-picker="" ng-model="date" short-time="true" date="true" time="true" type="text"
+          placeholder="Date" min-date="dateTimeStart"="dateTimeEnd" class=" md-input" id="input_1">
+        </md-input-container>
+      </section>
+			<button class="md-close">Close me!</button>
+		</div>
+	</div>
+</div>
+<div class="md-overlay"></div>
 
-<section class="event-form">
-	<span class="input input--styled">
-		<input class="input__field input__field--styled" type="text" id="input-16" />
-		<label class="input__label input__label--styled" for="input-16">
-			<span class="input__label-content input__label-content--styled">Street</span>
-		</label>
-	</span>
-	<span class="input input--styled">
-		<input class="input__field input__field--styled" type="text" id="input-17" />
-		<label class="input__label input__label--styled" for="input-17">
-			<span class="input__label-content input__label-content--styled">City</span>
-		</label>
-	</span>
-	<span class="input input--styled">
-		<input class="input__field input__field--styled" type="text" id="input-18" />
-		<label class="input__label input__label--styled" for="input-18">
-			<span class="input__label-content input__label-content--styled">Region</span>
-		</label>
-	</span>
-</section>
-<div class="container-fluid" ng-app="splish" ng-controller="EventController">
+<div class="container-fluid">
   <div class="range layout-column flex-gt-md-30" >
-    <md-input-container class="md-input-has-placeholder" >
-      <label>Start Date/Time</label>
-      <input mdc-datetime-picker="" ng-model="date" short-time="true" date="true" time="true" type="text"
-      placeholder="Date" max-date="dateTimeEnd" class=" md-input"
-      id="input_0">
-    </md-input-container>
-    <md-input-container class="md-input-has-placeholder">
-      <label>End Date/Time</label>
-      <input mdc-datetime-picker="" ng-model="date" short-time="true" date="true" time="true" type="text"
-      placeholder="Date" min-date="dateTimeStart"="dateTimeEnd" class=" md-input" id="input_1">
-    </md-input-container>
+
   </div>
   <md-button id="event-button" name="Create an Event" ng-show="{{user_id}}" class="md-primary md-raised" ng-click="showNewEventModal($event)" >
     Create an Event

@@ -1,4 +1,4 @@
-var app = angular.module('splish',['ngMaterial', 'pusher-angular', 'ng-rails-csrf', 'ngMaterialDatePicker']);
+var app = angular.module('splish',['ngAnimate', 'ngMaterial', 'pusher-angular', 'ng-rails-csrf', 'ngMaterialDatePicker']);
 
 app.factory('eventService', ['$http', function($http) {
   var eventService = {};
@@ -184,7 +184,7 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
 
   $scope.showNewEventModal = function(ev) {
     $mdDialog.show({template :
-      '<form id="modal-form" name="messageForm" ng-controller="EventController" ng-submit="submitForm()">' +
+      '<form id="modal-form" name="messageForm" ng-controller="EventController" ng-submit="submitForm()" class="ang-form">' +
         '<label>Event title<input id="title" type="text" name="title" ng-model="message.title" value="Event Title"></label>' +
         '<br>' +
         '<label id="start_date">Start Date<input type="datetime-local" name="start_date" ng-model="message.start_date" value="Start Date"></label>' +

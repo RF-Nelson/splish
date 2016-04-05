@@ -16,3 +16,11 @@
   width: 90%;
   text-align: center;
 }
+
+md-dialog {
+  opacity: 1 !important;
+}
+
+.md-dialog-container {
+  z-index: 2001 !important;
+}
