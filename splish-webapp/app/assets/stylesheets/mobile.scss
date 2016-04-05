@@ -18,9 +18,46 @@
 }
 
 md-dialog {
+  // z-index: 2001 !important;
   opacity: 1 !important;
 }
 
 .md-dialog-container {
   z-index: 2001 !important;
+}
+
+.md-autocomplete-suggestions-container {
+  z-index: 2001 !important;
+  background-color: rgba(255,255,255,0.6);
+}
+
+.pac-container {
+  z-index: 2001;
+  background-color: #ad473c;
+  &:after {
+    visibility: hidden;
+    height: 0;
+  }
+
+  .pac-item {
+    color: #f0f0f0;
+    line-height: 34px;
+
+    span {
+      font-size: 18px;
+    }
+
+    span:nth-child(2) {
+      color: #f0f0f0;
+    }
+
+    &:hover {
+      background-color: rgba(174, 72, 61, 0.8);
+    }
+  }
+
+  .pac-item-selected, .pac-item-selected:hover {
+    background-color: rgba(174, 72, 61, 0.8);
+
+  }
 }

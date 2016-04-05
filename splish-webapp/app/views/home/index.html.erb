@@ -1,34 +1,22 @@
 <% content_for :header do  %>
   <%= render 'layouts/header' %>
 <% end %>
+
+
 <button class="md-trigger" data-modal="modal-9">3D Flip (vertical)</button>
 <div class="md-modal md-effect-9" id="modal-9">
 	<div class="md-content">
-		<h3>Modal Dialog</h3>
+		<h3>create an event</h3>
 		<div>
-			<p>This is a modal window. You can do the following things with it:</p>
-			<ul>
-				<li><strong>Read:</strong> modal windows will probably tell you something important so don't forget to read what they say.</li>
-				<li><strong>Look:</strong> a modal window enjoys a certain kind of attention; just look at it and appreciate its presence.</li>
-				<li><strong>Close:</strong> click on the button below to close the modal.</li>
-			</ul>
       <section class="event-form">
       	<span class="input input--styled">
-      		<input class="input__field input__field--styled" type="text" />
+      		<input class="input__field input__field--styled" type="text" placeholder="What is your event called?" />
       		<label class="input__label input__label--styled">
-      			<span class="input__label-content input__label-content--styled">Region</span>
+      			<span class="input__label-content input__label-content--styled">Event Title</span>
       		</label>
       	</span>
         <span class="input input--styled">
-      		<input class="input__field input__field--styled" type="text" />
-      		<label class="input__label input__label--styled">
-      			<span class="input__label-content input__label-content--styled">Region</span>
-      		</label>
-      	</span>
-
-        <span class="input input--styled">
-
-          <textarea class="input__field input__field--styled" name="description" ng-model="message.description" rows="8" cols="40">
+          <textarea class="input__field input__field--styled" name="description" ng-model="message.description" rows="8" cols="40" placeholder="Tell us more about your event...">
             Describe your event
           </textarea>
           <label class="input__label input__label--styled textarea" id="description">
@@ -37,16 +25,17 @@
         </span>
 
         <span class="input input--styled">
-          <input class="input__field input__field--styled" id="title" type="text" name="title" ng-model="message.title" value="Event Title" />
+          <input id="autocomplete" class="input__field input__field--styled md-input" placeholder="Where is your event is taking place?" type="text" />
           <label class="input__label input__label--styled">
             <span class="input__label-content input__label-content--styled">
-              Event title
+              Location
             </span>
           </label>
         </span>
+
         <span class="input input--styled">
           <input mdc-datetime-picker="" class="input__field input__field--styled md-input" ng-model="date" short-time="true" date="true" time="true" type="text"
-          placeholder="Date" max-date="dateTimeEnd" id="input_0" format="YYYY-MM-DD HH:mm" />
+          placeholder="Start Date" max-date="dateTimeEnd" id="input_0" format="YYYY-MM-DD HH:mm" />
           <label class="input__label input__label--styled">
             <span class="input__label-content input__label-content--styled">
               Start Date/Time
@@ -55,7 +44,7 @@
         </span>
         <span class="input input--styled">
           <input mdc-datetime-picker="" class="input__field input__field--styled md-input" ng-model="date" short-time="true" date="true" time="true" type="text"
-          placeholder="Date" min-date="dateTimeStart"="dateTimeEnd" id="input_1" format="YYYY-MM-DD HH:mm" />
+          placeholder="End Date" min-date="dateTimeStart"="dateTimeEnd" id="input_1" format="YYYY-MM-DD HH:mm" />
           <label class="input__label input__label--styled">
             <span class="input__label-content input__label-content--styled">
               End Date/Time

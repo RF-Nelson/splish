@@ -10,6 +10,7 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require ./googlePlacesAutocomplete.js
 //= require ./vendor/classie.js
 //= require ./vendor/mo.min.js
 //= require ./vendor/segment.min.js

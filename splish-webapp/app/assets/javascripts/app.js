@@ -261,18 +261,18 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
     // THE MATERIAL DESIGN DIALOG DOESN'T LIKE TO HAVE FORMS IN IT, SO WHEN
     // WE HOW THE USER THE EDIT-EVENT DIALOG, WE MANUALLY INJECT THE MODEL'S
     // PROPERTIES DIRECTLY INTO THE FORM.
-    setTimeout(function () {
-      if (datesPresent) {
-        angular.element("#start_date_picker").val(startDateString)
-        angular.element("#end_date_picker").val(endDateString)
-      }
-      var dateInputID = '#' + document.querySelector('[id^="input-"]').id;
-      angular.element(dateInputID).val(event.location)
-      angular.element("#title").val(event.title)
-    }, 10)
+  //   setTimeout(function () {
+  //     if (datesPresent) {
+  //       angular.element("#start_date_picker").val(startDateString)
+  //       angular.element("#end_date_picker").val(endDateString)
+  //     }
+  //     var dateInputID = '#' + document.querySelector('[id^="input-"]').id;
+  //     angular.element(dateInputID).val(event.location)
+  //     angular.element("#title").val(event.title)
+  //   }, 10)
   }
 
-  $scope.gmapsService = new google.maps.places.AutocompleteService();
+  // $scope.gmapsService = new google.maps.places.AutocompleteService();
 
   $scope.search = search;
 

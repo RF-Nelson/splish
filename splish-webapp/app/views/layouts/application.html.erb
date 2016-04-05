@@ -2,20 +2,34 @@
 <html>
   <head>
     <title>Splish</title>
+
     <%= stylesheet_link_tag    "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMZms2er49ODMvfbXUtO5ADbAY-VYIpiA&libraries=places"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-animate.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-aria.min.js"></script>
     <link rel="stylesheet" href="https://material.angularjs.org/latest/angular-material.min.css"/>
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMZms2er49ODMvfbXUtO5ADbAY-VYIpiA&libraries=places&callback=initAutocomplete" async defer></script> -->
 
     <%= favicon_link_tag 'favicon.ico' %>
   </head>
   <body ng-app="splish" ng-controller="EventController">
     <!-- <%= render '/layouts/header' %> -->
+
+   <script>
+     // This example displays an address form, using the autocomplete feature
+     // of the Google Places API to help users fill in the information.
+
+     // This example requires the Places library. Include the libraries=places
+     // parameter when you first load the API. For example:
+     // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+
+   </script>
+   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMZms2er49ODMvfbXUtO5ADbAY-VYIpiA&libraries=places&callback=initAutocomplete" async defer></script>
     <%= render '/layouts/errors' %>
     <%= yield :header %>
     <%= yield %>
+
   </body>
 </html>
