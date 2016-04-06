@@ -82,7 +82,7 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
     } else if (new Date($scope.message.start_date).getDate() > new Date($scope.message.end_date).getDate()) {
       $scope.showActionToast("Please make sure the end date comes after the start date of your event.")
       return
-    } else if (new Date() > new Date($scope.message.start_date).getDate()) {
+    } else if (new Date() > new Date($scope.message.start_date)) {
       $scope.showActionToast("Unless you're Marty McFly, that start date is not possible.")
       return
     }
@@ -217,57 +217,67 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
 
   $scope.showActionToast = function(text, isEditForm) {
     if (isEditForm) {
-      var el = $('#angular-triggered-modal')
+      var el = $('#angular-triggered-modal');
     } else {
-      var el = $('.modal-header')
+      var el = $('.modal-header');
     }
     var toast = $mdToast.simple()
           .textContent(text)
           .hideDelay(3000)
           .parent(el[0])
-          .position('top left');
-    $mdToast.show(toast);
+          .position('top left')
+    $mdToast.show(toast)
   };
 
   $scope.filter = 'all'
 
   $scope.setFilter = function (event) {
-    // if (event.start_date == null || event.end_date == null) {
-    //   if ($scope.sortState === "Sort by Event Title") {
-    //     console.log($scope.sortState);
-    //     console.log('filter out TBDs');
-    //     return
-    //   }
-    // }
+    if (event.start_date == null || event.end_date == null) {
+      if ($scope.sortState === "Sort by Event Title") {
+        return;
+      }
+    }
     switch ($scope.filter) {
       case 'upcoming':
         if (new Date() < new Date(event.start_date)) {
             return event;
         }
-        return
+        return;
       case 'past':
       console.log('past');
         if (new Date() > new Date(event.end_date)) {
-          return event
+          return event;
         }
-        return
+        return;
       case 'all':
           return event;
       case 'created':
         if ($scope.user_id == event.owner_id) {
-          return event
+          return event;
         }
-        return
+        return;
       case 'tbd':
-        return
+        return;
       case 'rsvpd':
         for (var i = 0; i < event.guests.length; i++) {
           if (event.guests[i].id == $scope.user_id) {
             return event;
           }
         }
-      return
+      return;
     }
+  }
+
+  $scope.didAttendPastEvent = function (event) {
+    return $scope.checkIfRSVPd(event.guests) && $scope.notTBDandPastEvent(event);
+  }
+
+  $scope.checkIfAttendingFutureEvent = function (event) {
+    return $scope.checkIfRSVPd(event.guests) && !($scope.notTBDandPastEvent(event));
+  }
+
+  $scope.checkIfEligibleToCancelEvent = function (event) {
+    return $scope.checkIfRSVPd(event.guests) && !($scope.notTBDandPastEvent(event));
   }
 
   $scope.isTBD = function (event) {
@@ -278,17 +288,17 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
 
   $scope.notTBDandPastEvent = function (event) {
     if (event) {
-      return !$scope.isTBD(event) && new Date(event.end_date) < new Date()
+      return !$scope.isTBD(event) && new Date(event.end_date) < new Date();
     } else {
-      return false
+      return false;
     }
   }
 
   $scope.notTBDandFutureEvent = function (event) {
     if (event) {
-      return !$scope.isTBD(event) && new Date(event.end_date) > new Date()
+      return !$scope.isTBD(event) && new Date(event.end_date) > new Date();
     } else {
-      return false
+      return false;
     }
   }
 

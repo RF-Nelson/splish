@@ -47,10 +47,12 @@
               <span ng-show={{user_id}}><md-button class="md-primary md-raised" ng-hide="checkIfRSVPd(event.guests) || notTBDandPastEvent(event)" ng-click="rsvp($event, event.id)">
                 RSVP to this Event
               </md-button></span>
-              <md-button class="md-primary md-raised" ng-show="checkIfRSVPd(event.guests) && !notTBDandPastEvent(event)" ng-click="dersvp($event, event.id)">
+              <md-button class="md-primary md-raised" ng-show="checkIfEligibleToCancelEvent(event)" ng-click="dersvp($event, event.id)">
                 Cancel Your RSVP
               </md-button>
-              <md-button ng-show="user_id == event.owner_id" ng-click="fillEditField(event)" class="md-primary md-raised" data-modal="modal-9">Edit Event</md-button>
+              <span ng-hide="notTBDandFutureEvent(event)">
+                <md-button ng-show="user_id == event.owner_id" ng-click="fillEditField(event)" class="md-primary md-raised" data-modal="modal-9">Edit Event</md-button>
+              </span>
     				</div>
     			</div>
     		</li>
@@ -80,12 +82,12 @@
               <br><br>
               This event ended {{daysSinceEnded(event.end_date)}} days ago.
               <br>
-              <span ng-show="checkIfRSVPd(event.guests) && notTBDandPastEvent(event)">You were there!</span>
+              <span ng-show="didAttendPastEvent(event)">You were there!</span>
             </p>
             <span ng-show={{user_id}}><md-button class="md-primary md-raised" ng-hide="checkIfRSVPd(event.guests) || notTBDandPastEvent(event)" ng-click="rsvp($event, event.id)">
               RSVP to this Event
             </md-button></span>
-            <md-button class="md-primary md-raised" ng-show="checkIfRSVPd(event.guests) && !notTBDandPastEvent(event)" ng-click="dersvp($event, event.id)">
+            <md-button class="md-primary md-raised" ng-show="checkIfAttendingFutureEvent(event)" ng-click="dersvp($event, event.id)">
               Cancel Your RSVP
             </md-button>
             <md-button ng-show="user_id == event.owner_id" ng-click="fillEditField(event)" class="md-primary md-raised" data-modal="modal-9">Edit Event</md-button>
