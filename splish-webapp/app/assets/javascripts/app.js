@@ -127,7 +127,8 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
     $scope.editingEventID = null;
   }
 
-  $scope.rsvp = function (eventID) {
+  $scope.rsvp = function ($event, eventID) {
+    keepBoxActive($event.currentTarget)
     var data = {rsvp: $scope.user_id}
     $http({
       method  : 'PUT',
@@ -143,7 +144,8 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
       })
     }
 
-  $scope.dersvp = function (eventID) {
+  $scope.dersvp = function ($event, eventID) {
+    keepBoxActive($event.currentTarget)
     var data = {dersvp: $scope.user_id}
     $http({
       method  : 'PUT',
@@ -169,6 +171,14 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
   }
 
     return false;
+  }
+
+  var keepBoxActive = function(target) {
+    var el = $($($($($(target).parent())).parent()).parent()).toggleClass('is-active')
+    // console.log(el);
+    setTimeout(function () {
+      $(el).toggleClass('is-active')
+    }, 3000)
   }
 
   var submitForm = document.getElementById('modal-form');
@@ -221,6 +231,13 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
   $scope.filter = 'all'
 
   $scope.setFilter = function (event) {
+    // if (event.start_date == null || event.end_date == null) {
+    //   if ($scope.sortState === "Sort by Event Title") {
+    //     console.log($scope.sortState);
+    //     console.log('filter out TBDs');
+    //     return
+    //   }
+    // }
     switch ($scope.filter) {
       case 'upcoming':
         if (new Date() < new Date(event.start_date)) {
@@ -253,7 +270,23 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
   }
 
   $scope.isTBD = function (event) {
-    return !event.start_date || !event.end_date
+    if (event) {
+      return !event.start_date || !event.end_date
+    }
+  }
+
+  $scope.notTBDandPastEvent = function (event) {
+    if (event) {
+      return !$scope.isTBD(event) && new Date(event.end_date) < new Date()
+
+    }
+  }
+
+  $scope.notTBDandFutureEvent = function (event) {
+    if (event) {
+      return !$scope.isTBD(event) && new Date(event.end_date) > new Date()
+
+    }
   }
 
   $scope.setFilterTBD = function (event) {
@@ -291,6 +324,17 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
             }
           }
         }
+      }
+    }
+
+    $scope.sortState = "Sort by Event Title"
+    $scope.toggleSort = function () {
+      if ($scope.sortState === "Sort by Event Title") {
+        $scope.predicate = 'title'
+        $scope.sortState = "Sort by Event Date"
+      } else {
+        $scope.predicate = 'start_date'
+        $scope.sortState = "Sort by Event Title"
       }
     }
 }]);

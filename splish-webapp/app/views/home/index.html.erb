@@ -1,6 +1,38 @@
 <% content_for :header do  %>
   <%= render 'layouts/header' %>
 <% end %>
+<div class="wrapper events" ng-repeat="event in events | filter: setFilter | orderBy:predicate:reverse" ng-if="!isTBD()" >
+	<ul class="">
+		<li class="scene">
+			<div class="box" onclick="return true">
+				<div class="poster">
+          <h1>{{event.title}}</h1>
+          <p ng-hide="event.start_date == null || event.end_date == null">From: {{event.start_date | date:'MMM d, yyyy \'at\' h:mm a'}}</p>
+          <p ng-hide="event.start_date == null || event.end_date == null">To: {{event.end_date | date:'MMM d, yyyy \'at\' h:mm a'}}</p>
+          <p ng-show="event.start_date == null || event.end_date == null" ng-if="sortState === 'Sort by Event Title'">TBD</p>
+        </div>
+				<div class="info">
+					<header>
+            <p>{{event.description}}</p>
+					</header>
+          <p ng-hide="event.start_date == null || event.end_date == null">From: {{event.start_date | date:'MMM d, yyyy \'at\' h:mm a'}}</p>
+          <p ng-hide="event.start_date == null || event.end_date == null">To: {{event.end_date | date:'MMM d, yyyy \'at\' h:mm a'}}</p>
+          <p ng-show="event.start_date == null || event.end_date == null" ng-if="sortState === 'Sort by Event Title'">TBD</p>
+          <p ng-show="notTBDandFutureEvent(event)">{{event.guests.length}} people have RSVP'd to this event.</p>
+          <p ng-show="notTBDandPastEvent(event)">{{event.guests.length}} people attended this event.</p>
+          <span ng-show={{user_id}}><md-button class="md-primary md-raised" ng-hide="checkIfRSVPd(event.guests)" ng-click="rsvp($event, event.id)">
+            RSVP to this Event
+          </md-button></span>
+          <md-button class="md-primary md-raised" ng-show="checkIfRSVPd(event.guests)" ng-click="dersvp($event, event.id)">
+            Cancel Your RSVP
+          </md-button>
+          <md-button ng-show="user_id == event.owner_id" ng-click="fillEditField(event)" class="md-primary md-raised" data-modal="modal-9">Edit Event</md-button>
+				</div>
+			</div>
+		</li>
+	</ul>
+</div>
+<br><br><br>
 
 <div class="container-fluid">
   <md-button ng-show="{{user_id}}" class="md-trigger md-primary md-raised" data-modal="modal-9">Create New Event</md-button>
@@ -10,6 +42,7 @@
   <md-button ng-show="{{user_id}}" ng-click="filter = 'all'" class=" md-primary md-raised">See All Events</md-button>
   <md-button ng-show="{{user_id}}" ng-click="filter = 'created'" class="md-primary md-raised">See Events You Created</md-button>
   <md-button ng-show="{{user_id}}" ng-click="filter = 'rsvpd'" class=" md-primary md-raised">See RSVP'd Events</md-button>
+  <md-button ng-show="{{user_id}}" ng-click="toggleSort(); $event.stopPropagation();" class=" md-primary md-raised">{{sortState}}</md-button>
   <div class="panel panel-success">
     <div class="panel-heading" >
 
@@ -19,29 +52,31 @@
         <p><span ng-hide="event.start_date == event.end_date">From: {{event.start_date | date:'mediumDate'}} to </span>{{event.end_date | date:'mediumDate'}}</p>
         <p>{{event.description}}</p>
       </div>
-
-      <div class="events" ng-repeat="event in events | filter: setFilterTBD" style="border: 1px solid #fff;">
-        <h1>{{event.title}}</h1>
-        <!-- <p><span ng-hide="!event.start_date || !event.end_date">From: {{event.start_date | date:'mediumDate'}} to </span>{{event.end_date | date:'mediumDate'}}</p> -->
-        <p ng-show="!event.start_date || !event.end_date" >TBD</p>
-        <p>{{event.description}}</p>
-        <p ng-show="event.guests.length > 0">There are {{event.guests.length}} people RSVP'd for this event.</p>
-        <span ng-show={{user_id}}><md-button class="md-primary md-raised" ng-hide="checkIfRSVPd(event.guests)" ng-click="rsvp(event.id)">
-          RSVP to this Event
-        </md-button></span>
-        <md-button ng-show="checkIfRSVPd(event.guests)" class="md-primary md-raised" ng-click="dersvp(event.id)">
-          Cancel Your RSVP
-        </md-button>
-        <md-button ng-show="user_id == event.owner_id" ng-click="fillEditField(event)" class="md-primary md-raised" data-modal="modal-9">Edit Event</md-button>
+      <div class="tbd-wrapper">
+        <div ng-show="sortState === 'Sort by Event Title'" class="events" id="TBDevents" ng-repeat="event in events | filter: setFilterTBD" style="border: 1px solid #fff;">
+          <h1>{{event.title}}</h1>
+          <!-- <p><span ng-hide="!event.start_date || !event.end_date">From: {{event.start_date | date:'mediumDate'}} to </span>{{event.end_date | date:'mediumDate'}}</p> -->
+          <p ng-show="!event.start_date || !event.end_date" >TBD</p>
+          <p>{{event.description}}</p>
+          <p ng-show="event.guests.length > 0">{{event.guests.length}} people have RSVP'd to this event.</p>
+          <span ng-show={{user_id}}><md-button class="md-primary md-raised" ng-hide="checkIfRSVPd(event.guests)" ng-click="rsvp(event.id)">
+            RSVP to this Event
+          </md-button></span>
+          <md-button ng-show="checkIfRSVPd(event.guests)" class="md-primary md-raised" ng-click="dersvp(event.id)">
+            Cancel Your RSVP
+          </md-button>
+          <md-button ng-show="user_id == event.owner_id" ng-click="fillEditField(event)" class="md-primary md-raised" data-modal="modal-9">Edit Event</md-button>
+        </div>
       </div>
 
-      <div class="events" ng-repeat="event in events | filter: setFilter | orderBy:predicate:reverse" ng-if="event.start_date && event.end_date" style="border: 1px solid #fff;">
+      <div class="events" ng-repeat="event in events | filter: setFilter | orderBy:predicate:reverse" ng-if="!isTBD()" style="border: 1px solid #fff;">
         <h1>{{event.title}}</h1>
-        <p>From: {{event.start_date | date:'MMM d, yyyy \'at\' h:mm a'}}</p>
-        <p>To: {{event.end_date | date:'MMM d, yyyy \'at\' h:mm a'}}</p>
-        <!-- <p ng-show="event.start_date == null || event.end_date == null" >TBD</p> -->
+        <p ng-hide="event.start_date == null || event.end_date == null">From: {{event.start_date | date:'MMM d, yyyy \'at\' h:mm a'}}</p>
+        <p ng-hide="event.start_date == null || event.end_date == null">To: {{event.end_date | date:'MMM d, yyyy \'at\' h:mm a'}}</p>
+        <p ng-show="event.start_date == null || event.end_date == null" ng-if="sortState === 'Sort by Event Title'">TBdfddfD</p>
         <p>{{event.description}}</p>
-        <p ng-show="event.guests.length > 0">There are {{event.guests.length}} people RSVP'd for this event.</p>
+        <p ng-show="notTBDandFutureEvent(event)">{{event.guests.length}} people have RSVP'd to this event.</p>
+        <p ng-show="notTBDandPastEvent(event)">{{event.guests.length}} people attended this event.</p>
         <span ng-show={{user_id}}><md-button class="md-primary md-raised" ng-hide="checkIfRSVPd(event.guests)" ng-click="rsvp(event.id)">
           RSVP to this Event
         </md-button></span>
