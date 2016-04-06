@@ -337,4 +337,12 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
         $scope.sortState = "Sort by Event Title"
       }
     }
+
+    $scope.daysSinceEnded = function (date) {
+      var date1 = new Date(date);
+      var date2 = new Date();
+      var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+      var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      return diffDays;
+    }
 }]);

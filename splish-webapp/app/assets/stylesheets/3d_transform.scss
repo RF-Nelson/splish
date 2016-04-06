@@ -1,4 +1,3 @@
-
 .scene {
 	width: 260px;
 	height: 400px;
@@ -31,7 +30,7 @@
   margin: 40px;
 }
 
-.box:hover, .is-active {
+.box:hover, .box:active, .box:focus, div.is-active {
 	-webkit-transform: rotateY(-78deg) translateZ(20px);
 	-moz-transform: rotateY(-78deg) translateZ(20px);
 	transform: rotateY(-78deg) translateZ(20px);
@@ -112,15 +111,17 @@
 .info header h1 {
 	margin: 0 0 2px;
 	font-size: 1.4em;
+	text-align: justify;
 }
 
 .info p {
-	padding: 1.2em 1.4em;
+	padding: 1em 1.2em;
 	margin: 2px 0 0;
 	font-weight: 700;
 	color: #666;
-	line-height: 1.4em;
-	border-top: 10px solid #555;
+	line-height: 1.2em;
+	border-top: 4px solid #555;
+	font-size: 1.2em;
 }
 
 .box .poster,
@@ -135,7 +136,7 @@
 	box-shadow: inset 0px 0px 40px rgba(255,255,255,0);
 }
 
-.csstransforms3d .box:hover .poster {
+.csstransforms3d .box:hover p {
 	box-shadow: inset 300px 0px 40px rgba(255,255,255,0.8);
 }
 
