@@ -10,7 +10,6 @@
 		66247FBEC839ACA2BC03AA88 /* Pods_Splish.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD1E7F06CF5FD3A957D75F8A /* Pods_Splish.framework */; };
 		DD1464A41CB5656800C86028 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1464A31CB5656800C86028 /* AppDelegate.swift */; };
 		DD1464A61CB5656800C86028 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1464A51CB5656800C86028 /* MasterViewController.swift */; };
-		DD1464A81CB5656800C86028 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1464A71CB5656800C86028 /* DetailViewController.swift */; };
 		DD1464AB1CB5656800C86028 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD1464A91CB5656800C86028 /* Main.storyboard */; };
 		DD1464AD1CB5656800C86028 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD1464AC1CB5656800C86028 /* Assets.xcassets */; };
 		DD1464B01CB5656800C86028 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD1464AE1CB5656800C86028 /* LaunchScreen.storyboard */; };
@@ -22,7 +21,6 @@
 		DD1464A01CB5656800C86028 /* Splish.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Splish.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD1464A31CB5656800C86028 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DD1464A51CB5656800C86028 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
-		DD1464A71CB5656800C86028 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		DD1464AA1CB5656800C86028 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DD1464AC1CB5656800C86028 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD1464AF1CB5656800C86028 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -82,7 +80,6 @@
 			children = (
 				DD1464A31CB5656800C86028 /* AppDelegate.swift */,
 				DD1464A51CB5656800C86028 /* MasterViewController.swift */,
-				DD1464A71CB5656800C86028 /* DetailViewController.swift */,
 				DD1464A91CB5656800C86028 /* Main.storyboard */,
 				DD1464AC1CB5656800C86028 /* Assets.xcassets */,
 				DD1464AE1CB5656800C86028 /* LaunchScreen.storyboard */,
@@ -213,7 +210,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD1464A81CB5656800C86028 /* DetailViewController.swift in Sources */,
 				DD1464A61CB5656800C86028 /* MasterViewController.swift in Sources */,
 				DD1464A41CB5656800C86028 /* AppDelegate.swift in Sources */,
 			);
