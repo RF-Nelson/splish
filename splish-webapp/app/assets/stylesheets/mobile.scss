@@ -80,3 +80,28 @@ md-toast.md-default-theme .md-toast-content {
     font-size: 16px;
   }
 }
+
+.dtp {
+  .dtp-content > .dtp-date-view > header.dtp-header {
+    background-color: #8e9af5 !important;
+  }
+
+  div.dtp-date, .dtp div.dtp-time {
+    background-color: #5668f0 !important;
+  }
+
+  table.dtp-picker-days tr > td > a.selected,
+  .dtp-picker-time > a.dtp-select-hour.selected,
+  div.dtp-date,
+  .dtp div.dtp-time {
+    background-color: #5668f0 !important;
+  }
+
+  .dtp-select-day {
+    font-size: 14px;
+  }
+
+  table.dtp-picker-days tr > td > a.selected {
+    line-height: 18px;
+  }
+}
