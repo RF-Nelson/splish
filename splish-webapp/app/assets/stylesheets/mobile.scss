@@ -33,7 +33,7 @@ md-dialog {
 
 .pac-container {
   z-index: 2001;
-  background-color: #ad473c;
+  background-color: #848acd;
   &:after {
     visibility: hidden;
     height: 0;
@@ -52,12 +52,31 @@ md-dialog {
     }
 
     &:hover {
-      background-color: rgba(174, 72, 61, 0.8);
+      background-color: rgba(179, 183, 224, 0.8);
     }
   }
 
   .pac-item-selected, .pac-item-selected:hover {
-    background-color: rgba(174, 72, 61, 0.8);
+    background-color: rgba(179, 183, 224, 0.8);
 
+  }
+}
+
+md-toast {
+  z-index: 2001 !important;
+}
+
+body {
+  background-color: #8788c5;
+}
+
+md-toast.md-default-theme .md-toast-content {
+  margin-right: 140px;
+  margin-left: -16px;
+}
+
+.md-toast-content {
+  span {
+    font-size: 16px;
   }
 }

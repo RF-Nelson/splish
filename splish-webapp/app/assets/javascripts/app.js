@@ -1,4 +1,4 @@
-var app = angular.module('splish',['ngAnimate', 'ngMaterial', 'pusher-angular', 'ng-rails-csrf', 'ngMaterialDatePicker']);
+var app = angular.module('splish',['ngMaterial', 'pusher-angular', 'ng-rails-csrf', 'ngMaterialDatePicker']);
 
 app.factory('eventService', ['$http', function($http) {
   var eventService = {};
@@ -25,21 +25,10 @@ app.factory('eventService', ['$http', function($http) {
 }]);
 
 app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$q', '$timeout', '$rootScope', 'eventService', '$mdToast', function($scope, $http, $pusher, $mdDialog, $q, $timeout, $rootScope, eventService, $mdToast) {
+
   eventService.getEvents().then(function(events) {
     $scope.events = events;
   })
-
-  $scope.filterForTBD = function(element) {
-    if (!element.start_date) {
-      return element;
-    }
-  };
-
-  $scope.filterForNotTBD = function(element) {
-    if (element.start_date) {
-      return element;
-    }
-  };
 
   $scope.predicate = 'start_date';
   $scope.reverse = false;
@@ -63,18 +52,24 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
   }
   var client = new Pusher('28994c89518c14262f75');
   var pusher = $pusher(client);
-  var my_channel = pusher.subscribe('test_channel');
-  my_channel.bind('my_event',
-    function (data) {
-      $scope.newEventReceived = true;
-      $scope.newEvents.unshift(data.message);
-    })
+  var newEvents = pusher.subscribe('test_channel');
+  newEvents.bind('my_event',
+  function (data) {
+    $scope.newEventReceived = true;
+    $scope.newEvents.unshift(data.message);
+    // ALSO ADD TO CURRENT COLLECTION
+  })
+
+  newEvents.bind('eventUpdates',
+  function (data) {
+    $scope.events = eventService.updateEvent(data.message)
+  })
 
   $scope.message = {};
 
   $scope.submitForm = function () {
     var message = "Your event is missing "
-
+    window.validEntry = false;
     if (!$scope.message.location) {
       $scope.showActionToast(message + "a location.")
       return
@@ -87,7 +82,11 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
     } else if (new Date($scope.message.start_date).getDate() > new Date($scope.message.end_date).getDate()) {
       $scope.showActionToast("Please make sure the end date comes after the start date of your event.")
       return
+    } else if (new Date() > new Date($scope.message.start_date).getDate()) {
+      $scope.showActionToast("Unless you're Marty McFly, that start date is not possible.")
+      return
     }
+    window.validEntry = true;
     $scope.message.location = locationInput.value
     $scope.message.owner_id = $scope.user_id;
     $http({
@@ -109,7 +108,8 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
   }
 
   $scope.submitEditForm = function () {
-    id = window.editingEventID;
+    id = $scope.editingEventID;
+    if (locationInput.value) $scope.message.location = locationInput.value
     $http({
       method  : 'PUT',
       url     : './api/events/' + id,
@@ -124,7 +124,7 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
       }
     })
 
-    window.editingEventID = null;
+    $scope.editingEventID = null;
   }
 
   $scope.rsvp = function (eventID) {
@@ -160,11 +160,14 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
     }
 
   $scope.checkIfRSVPd = function (event) {
+  if (event) {
     for (var i = 0; i < event.length; i++) {
       if (event[i].id == $scope.user_id) {
         return true;
       }
     }
+  }
+
     return false;
   }
 
@@ -178,195 +181,116 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
     });
   }, 1000)
 
-
-  $scope.showNewEventModal = function(ev) {
-    $mdDialog.show({template :
-      '<form id="modal-form" name="messageForm" ng-controller="EventController" ng-submit="submitForm()" class="ang-form">' +
-        '<label>Event title<input id="title" type="text" name="title" ng-model="message.title" value="Event Title"></label>' +
-        '<br>' +
-        '<label id="start_date">Start Date<input type="datetime-local" name="start_date" ng-model="message.start_date" value="Start Date"></label>' +
-        '<br>' +
-        '<label id="start_date">End Date<input type="datetime-local" name="end_date" ng-model="message.end_date" value="End Date"></label>' +
-        '<br>' +
-        '<div class="google-map">' +
-          '<md-autocomplete id="Location" md-no-cache="true"' +
-             'md-selected-item="selectedItem"' +
-             'md-selected-item-change="selectedItemChange(item)"' +
-             'md-search-text-change="search(searchText); selectedItemChange(searchText)"' +
-             'md-search-text="searchText"' +
-             'md-items="item in search(searchText)"' +
-             'md-item-text="item"' +
-             'md-min-length="1"' +
-             'placeholder="Type your address">' +
-            '<md-item-template>' +
-              '<span md-highlight-text="searchText" md-highlight-flags="^i">{{item}}</span>' +
-            '</md-item-template>' +
-          '</md-autocomplete>' +
-        '</div>' +
-        '<br>' +
-        '<label id="description">Description<textarea name="description" ng-model="message.description" rows="8" cols="40">Describe your event</textarea></label>' +
-        '<br>' +
-        '<button name="Create New Event" type="submit" class="btn btn-primary">Create New Event</button>' +
-      '</form>',
-      clickOutsideToClose: true
-    })
-  };
-
-  $scope.showEditEventModal = function(ev, event) {
-    $scope.message = {};
-
-    $mdDialog.show({template :
-      '<form id="modal-form" name="messageForm" ng-controller="EventController" ng-submit="submitEditForm(' + event.id + ')">' +
-        '<label>Event title<input id="title" type="text" name="title" ng-model="message.title"></label>' +
-        '<br>' +
-        '<label id="start_date">Start Date<input id="start_date_picker" type="date" name="start_date" ng-model="message.start_date" ></label>' +
-        '<br>' +
-        '<label id="end_date">End Date<input id="end_date_picker" type="date" name="end_date" ng-model="message.end_date" ></label>' +
-        '<br>' +
-        '<div class="google-map">' +
-          '<md-autocomplete id="Location" md-no-cache="true"' +
-             'md-selected-item="selectedItem"' +
-             'md-selected-item-change="selectedItemChange(item)"' +
-             'md-search-text-change="search(searchText); selectedItemChange(searchText)"' +
-             'md-search-text="searchText"' +
-             'md-items="item in search(searchText)"' +
-             'md-item-text="item"' +
-             'md-min-length="1"' +
-             'placeholder="Type your address">' +
-            '<md-item-template>' +
-              '<span md-highlight-text="searchText" md-highlight-flags="^i">{{item}}</span>' +
-            '</md-item-template>' +
-          '</md-autocomplete>' +
-        '</div>' +
-        '<br>' +
-        '<label id="description">Description<textarea id="event_description" name="description" ng-model="message.description" rows="8" cols="40" ng-init="message.description =\'' + event.description + '\'" value="' + event.description + '"></textarea></label>' +
-        '<br>' +
-        '<button name="Change Event" type="submit" class="btn btn-primary">Change Event</button>' +
-      '</form>',
-      clickOutsideToClose: true
-    })
-
-    if (event.start_date && event.end_date) {
-      var datesPresent = true;
-    }
-
-    if (datesPresent) {
-      var startDateString = event.start_date.substring(0,10);
-      var endDateString = event.end_date.substring(0,10);
-    }
-
-    // THE MATERIAL DESIGN DIALOG DOESN'T LIKE TO HAVE FORMS IN IT, SO WHEN
-    // WE HOW THE USER THE EDIT-EVENT DIALOG, WE MANUALLY INJECT THE MODEL'S
-    // PROPERTIES DIRECTLY INTO THE FORM.
-  //   setTimeout(function () {
-  //     if (datesPresent) {
-  //       angular.element("#start_date_picker").val(startDateString)
-  //       angular.element("#end_date_picker").val(endDateString)
-  //     }
-  //     var dateInputID = '#' + document.querySelector('[id^="input-"]').id;
-  //     angular.element(dateInputID).val(event.location)
-  //     angular.element("#title").val(event.title)
-  //   }, 10)
-  }
-
-  // $scope.gmapsService = new google.maps.places.AutocompleteService();
-
-  $scope.search = search;
+  $scope.editingEventID;
 
   $scope.fillEditField = function(event) {
-    $('.md-effect-8').addClass('md-show')
-    window.editingEventID = event.id
+    window.openEditModal()
+    $scope.editingEventID = event.id
     var values = [event.title, event.description, event.location, event.start_date, event.end_date]
     var fields = $('.edit-modal-form').children()
     for (var i = 0; i < fields.length - 1; i++) {
-      angular.element($(fields[i]).children()[0]).val(values[i])
-      angular.element($(fields[i]).children()[0]).addClass('input--filled')
+      if (values[i]) {
+      var formField = angular.element($(fields[i]).children()[0]);
+      if (i === 3 || i === 4) {
+        var dateString = new Date(values[i]).toLocaleString()
+        dateString = dateString.substring(0, dateString.length - 6) + dateString.substring(dateString.length - 3, dateString.length)
+        formField.val(dateString)
+      } else {
+        formField.val(values[i])
+      }
 
+      $(formField).parent().addClass('input--filled')
+      }
     }
   }
 
-  function search(address) {
-    if (address) {
-      var deferred = $q.defer();
-      getResults(address).then(
-        function (predictions) {
-          var results = [];
-          for (var i = 0, prediction; prediction = predictions[i]; i++) {
-            results.push(prediction.description);
-          }
-          deferred.resolve(results);
-        }
-      );
-      return deferred.promise;
+  $scope.showActionToast = function(text, isEditForm) {
+    if (isEditForm) {
+      var el = $('#angular-triggered-modal')
+    } else {
+      var el = $('.modal-header')
     }
-  }
-
-  function getResults(address) {
-    if (address) {
-      var deferred = $q.defer();
-      $scope.gmapsService.getQueryPredictions({input: address}, function (data) {
-        deferred.resolve(data);
-      });
-      return deferred.promise;
-    }
-  }
-
-  $scope.selectedItemChange = function (item) {
-    $scope.message.location = item;
-  }
-
-  var last = {
-      bottom: false,
-      top: true,
-      left: false,
-      right: true
-    };
-  $scope.toastPosition = angular.extend({},last);
-  $scope.getToastPosition = function() {
-    sanitizePosition();
-    return Object.keys($scope.toastPosition)
-      .filter(function(pos) { return $scope.toastPosition[pos]; })
-      .join(' ');
-  };
-
-  function sanitizePosition() {
-    var current = $scope.toastPosition;
-    if ( current.bottom && last.top ) current.top = false;
-    if ( current.top && last.bottom ) current.bottom = false;
-    if ( current.right && last.left ) current.left = false;
-    if ( current.left && last.right ) current.right = false;
-    last = angular.extend({},current);
-  }
-
-  $scope.showActionToast = function(text) {
     var toast = $mdToast.simple()
           .textContent(text)
           .hideDelay(3000)
-          .position($scope.getToastPosition());
-    $mdToast.show(toast).then(function(response) {
-      if ( response == 'ok' ) {
-        alert('You clicked \'OK\'.');
-      }
-    });
+          .parent(el[0])
+          .position('top left');
+    $mdToast.show(toast);
   };
 
+  $scope.filter = 'all'
+
+  $scope.setFilter = function (event) {
+    switch ($scope.filter) {
+      case 'upcoming':
+        if (new Date() < new Date(event.start_date)) {
+            return event;
+        }
+        return
+      case 'past':
+      console.log('past');
+        if (new Date() > new Date(event.end_date)) {
+          return event
+        }
+        return
+      case 'all':
+          return event;
+      case 'created':
+        if ($scope.user_id == event.owner_id) {
+          return event
+        }
+        return
+      case 'tbd':
+        return
+      case 'rsvpd':
+        for (var i = 0; i < event.guests.length; i++) {
+          if (event.guests[i].id == $scope.user_id) {
+            return event;
+          }
+        }
+      return
+    }
+  }
+
+  $scope.isTBD = function (event) {
+    return !event.start_date || !event.end_date
+  }
+
+  $scope.setFilterTBD = function (event) {
+    var TBDsection = true;
+
+    switch ($scope.filter) {
+      case 'upcoming':
+        return
+      case 'past':
+        return
+      case 'all':
+        if (TBDsection) {
+          if (!event.start_date || !event.end_date) {
+            return event
+          }
+        }
+      case 'created':
+        if ($scope.user_id == event.owner_id) {
+          if (TBDsection) {
+            if (!event.start_date || !event.end_date) {
+              return event
+            }
+          }
+        }
+        return;
+      case 'tbd':
+        if (!event.start_date || !event.end_date) {
+          return event;
+        }
+      case 'rsvpd':
+        for (var i = 0; i < event.guests.length; i++) {
+          if (event.guests[i].id == $scope.user_id) {
+            if (!event.start_date || !event.end_date) {
+              return event
+            }
+          }
+        }
+      }
+    }
 }]);
-
-app.controller("FormCtrl", function ($scope, $controller, eventService) {
-    angular.extend(this, $controller('EventController', {$scope: $scope}));
-    // eventService.getEvents().then(function(events) {
-    //   $scope.events = events;
-    // })
-})
-
-// app.directive('input', function ($parse) {
-//   return {
-//     restrict: 'E',
-//     require: '?ngModel',
-//     link: function (scope, element, attrs) {
-//       if (attrs.ngModel && attrs.value) {
-//         $parse(attrs.ngModel).assign(scope, attrs.value);
-//       }
-//     }
-//   };
-// });

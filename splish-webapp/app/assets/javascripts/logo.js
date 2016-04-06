@@ -18,6 +18,15 @@
   			fade: 5,
   			delay: 0.4,
   			easing: d3_ease.easeExpInOut.ease
+  		},
+      {
+  			size : 80,
+  			weight : 10,
+  			color: '#3F51B5',
+  			duration: 1.5,
+  			fade: 5,
+  			delay: 0.3,
+  			easing: d3_ease.easeExpInOut.ease
   		}
   	],
 
@@ -174,6 +183,37 @@
   					timelines[pos+1].add(ring);
   				});
   			}
+
+        $('.input__field').on('keyup keypress', function(e) {
+          var keyCode = e.keyCode || e.which;
+          if (keyCode === 13) {
+            e.preventDefault();
+            return false;
+          }
+        });
+
+        setTimeout(function () {
+
+          var placeSearch, autocomplete;
+
+
+            // Create the autocomplete object, restricting the search to geographical
+            // location types.
+            autocompleteEdit = new google.maps.places.Autocomplete(
+                /** @type {!HTMLInputElement} */(document.getElementById('autocompleteEdit')),
+                {types: ['geocode']});
+
+
+          function fillInAddress() {
+            // Get the place details from the autocomplete object.
+            var place = autocomplete.getPlace();
+
+            for (var component in componentForm) {
+              document.getElementById(component).value = '';
+              document.getElementById(component).disabled = false;
+            }
+          }
+        }, 500)
 
   			playCtrl.addEventListener('click', function() {
   				if( word.getAttribute('data-state') === 'play' ) {

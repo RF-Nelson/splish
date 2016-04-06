@@ -2,16 +2,14 @@
   <%= render 'layouts/header' %>
 <% end %>
 
-
-<md-button class="md-trigger md-primary md-raised" data-modal="modal-9">Create Event</md-button>
-
 <div class="container-fluid">
-  <div class="range layout-column flex-gt-md-30" >
-
-  </div>
-  <md-button id="event-button" name="Create an Event" ng-show="{{user_id}}" class="md-primary md-raised" ng-click="showNewEventModal($event)" >
-    Create an Event
-  </md-button>
+  <md-button ng-show="{{user_id}}" class="md-trigger md-primary md-raised" data-modal="modal-9">Create New Event</md-button>
+  <md-button ng-show="{{user_id}}" ng-click="filter = 'tbd'" class="md-primary md-raised">See TBD Events</md-button>
+  <md-button ng-show="{{user_id}}" ng-click="filter = 'upcoming'" class="md-primary md-raised">See Upcoming Events</md-button>
+  <md-button ng-show="{{user_id}}" ng-click="filter = 'past'" class="md-primary md-raised">See Past Events</md-button>
+  <md-button ng-show="{{user_id}}" ng-click="filter = 'all'" class=" md-primary md-raised">See All Events</md-button>
+  <md-button ng-show="{{user_id}}" ng-click="filter = 'created'" class="md-primary md-raised">See Events You Created</md-button>
+  <md-button ng-show="{{user_id}}" ng-click="filter = 'rsvpd'" class=" md-primary md-raised">See RSVP'd Events</md-button>
   <div class="panel panel-success">
     <div class="panel-heading" >
 
@@ -22,10 +20,10 @@
         <p>{{event.description}}</p>
       </div>
 
-      <div class="events" ng-repeat="event in events | filter: filterForTBD" style="border: 1px solid #fff;">
+      <div class="events" ng-repeat="event in events | filter: setFilterTBD" style="border: 1px solid #fff;">
         <h1>{{event.title}}</h1>
-        <p><span ng-hide="event.start_date == event.end_date">From: {{event.start_date | date:'mediumDate'}} to </span>{{event.end_date | date:'mediumDate'}}</p>
-        <p ng-show="event.start_date == null || event.end_date == null" >TBD</p>
+        <!-- <p><span ng-hide="!event.start_date || !event.end_date">From: {{event.start_date | date:'mediumDate'}} to </span>{{event.end_date | date:'mediumDate'}}</p> -->
+        <p ng-show="!event.start_date || !event.end_date" >TBD</p>
         <p>{{event.description}}</p>
         <p ng-show="event.guests.length > 0">There are {{event.guests.length}} people RSVP'd for this event.</p>
         <span ng-show={{user_id}}><md-button class="md-primary md-raised" ng-hide="checkIfRSVPd(event.guests)" ng-click="rsvp(event.id)">
@@ -34,13 +32,14 @@
         <md-button ng-show="checkIfRSVPd(event.guests)" class="md-primary md-raised" ng-click="dersvp(event.id)">
           Cancel Your RSVP
         </md-button>
-        <md-button ng-show="user_id == event.owner_id" ng-click="fillEditField(event)" class=" md-primary md-raised" data-modal="modal-9">Edit Event</md-button>
+        <md-button ng-show="user_id == event.owner_id" ng-click="fillEditField(event)" class="md-primary md-raised" data-modal="modal-9">Edit Event</md-button>
       </div>
 
-      <div class="events" ng-repeat="event in events | filter: filterForNotTBD | orderBy:predicate:reverse" style="border: 1px solid #fff;">
+      <div class="events" ng-repeat="event in events | filter: setFilter | orderBy:predicate:reverse" ng-if="event.start_date && event.end_date" style="border: 1px solid #fff;">
         <h1>{{event.title}}</h1>
-        <p><span ng-hide="event.start_date == event.end_date">From: {{event.start_date | date:'mediumDate'}} to </span>{{event.end_date | date:'mediumDate'}}</p>
-        <p ng-show="event.start_date == null || event.end_date == null" >TBD</p>
+        <p>From: {{event.start_date | date:'MMM d, yyyy \'at\' h:mm a'}}</p>
+        <p>To: {{event.end_date | date:'MMM d, yyyy \'at\' h:mm a'}}</p>
+        <!-- <p ng-show="event.start_date == null || event.end_date == null" >TBD</p> -->
         <p>{{event.description}}</p>
         <p ng-show="event.guests.length > 0">There are {{event.guests.length}} people RSVP'd for this event.</p>
         <span ng-show={{user_id}}><md-button class="md-primary md-raised" ng-hide="checkIfRSVPd(event.guests)" ng-click="rsvp(event.id)">
@@ -49,9 +48,7 @@
         <md-button class="md-primary md-raised" ng-show="checkIfRSVPd(event.guests)" ng-click="dersvp(event.id)">
           Cancel Your RSVP
         </md-button>
-        <md-button ng-show="user_id == event.owner_id" id="event-edit-button" name="Edit this Event" class="md-primary md-raised" ng-click="showEditEventModal($event, event)" >
-          Edit this Event
-        </md-button>
+        <md-button ng-show="user_id == event.owner_id" ng-click="fillEditField(event)" class="md-primary md-raised" data-modal="modal-9">Edit Event</md-button>
       </div>
     </div>
   </div>
@@ -59,7 +56,7 @@
 
 <div class="md-modal md-effect-9" id="modal-9">
 	<div class="md-content">
-		<h3>create an event</h3>
+		<h3 class='modal-header'>create an event</h3>
 		<div>
       <section class="event-form">
         <form id="modal-form" name="messageForm" ng-submit="submitForm()" class="ang-form">
@@ -79,7 +76,7 @@
         </span>
 
         <span class="input input--styled">
-          <input id="autocomplete" ng-model="message.location" class="input__field input__field--styled md-input" placeholder="Where is your event is taking place?" type="text" />
+          <input id="autocompleteEdit" ng-model="message.location" class="input__field input__field--styled md-input" placeholder="Where is your event is taking place?" type="text" />
           <label class="input__label input__label--styled">
             <span class="input__label-content input__label-content--styled">
               Location
@@ -105,19 +102,19 @@
             </span>
           </label>
         </span>
-        <button type="submit" class="md-close">Submit</button>
+        <md-button type="submit" class="md-close md-primary md-raised">Submit</md-button>
       </form>
       </section>
 		</div>
 	</div>
 </div>
 
-<div class="md-modal md-effect-8" id="modal-8">
+<div class="md-modal md-effect-8" id="angular-triggered-modal">
 	<div class="md-content">
-		<h3>edit your event</h3>
+		<h3 class='modal-header'>edit your event</h3>
 		<div>
       <section class="event-form">
-        <form id="modal-form" name="messageForm" ng-submit="submitForm()" class="edit-modal-form">
+        <form id="modal-form" name="messageForm" ng-submit="submitEditForm()" class="edit-modal-form">
       	<span class="input input--styled">
       		<input ng-model="message.title" class="input__field input__field--styled" type="text" placeholder="What is your event called?" />
       		<label class="input__label input__label--styled">
@@ -160,7 +157,7 @@
             </span>
           </label>
         </span>
-        <button type="submit" class="md-close">Submit</button>
+        <md-button type="submit" class="md-close md-primary md-raised">Submit</md-button>
       </form>
       </section>
 		</div>

@@ -40,7 +40,6 @@ class Api::EventsController < ApplicationController
 
     data = JSON.parse(params.flatten()[0])
     data = (data["data"])
-
     if (data["rsvp"])
       user_id = data["rsvp"]
       guest = Guest.find_by_id(user_id)
@@ -60,6 +59,13 @@ class Api::EventsController < ApplicationController
     end
 
     if @event.save()
+      msg = @event
+      msg = msg.as_json
+      msg["guests"] = @event.guests.as_json
+
+      Pusher.trigger('test_channel', 'eventUpdates', {
+        message: msg
+      })
       head :ok, content_type: "text/html"
     else
       render json: Event.new(listing_params).errors.full_messages, status: 422
