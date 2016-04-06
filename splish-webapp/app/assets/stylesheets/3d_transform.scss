@@ -21,19 +21,15 @@
 	-webkit-transform: translateZ(-130px);
 	-moz-transform: translateZ(-130px);
 	transform: translateZ(-130px);
-	-webkit-transition: -webkit-transform 400ms;
+	-webkit-transition: -webkit-transform 350ms;
 	-moz-transition: -moz-transform 350ms;
-	transition: transform 400ms;
-	-webkit-transform: rotateY(-8deg);
-	-moz-transform: rotateY(-8deg);
-	transform: rotateY(-8deg) ;
-  margin: 40px;
+	transition: transform 350ms;
 }
 
 .box:hover, .box:active, .box:focus, div.is-active {
-	-webkit-transform: rotateY(-78deg) translateZ(20px);
-	-moz-transform: rotateY(-78deg) translateZ(20px);
-	transform: rotateY(-78deg) translateZ(20px);
+	-webkit-transform: rotateY(-78deg) translateX(-400px);
+	-moz-transform: rotateY(-78deg) translateX(-400px);
+	transform: rotateY(-78deg) translateX(90px)  translateZ(140px);
 }
 
 .box .poster,
@@ -46,6 +42,13 @@
 	-webkit-backface-visibility: hidden;
 	-moz-backface-visibility: hidden;
 	backface-visibility: hidden;
+}
+
+@media screen and (max-width: 60.75em){
+	.scene {
+		float: none;
+		margin: 30px auto 60px;
+	}
 }
 
 .box .poster  {
@@ -70,31 +73,40 @@
 	height: 260px;
 	position: absolute;
 	bottom: 0;
-	box-shadow: 0 30px 50px rgba(0,0,0,0.3);
+	box-shadow: -0.6vw 6vw 7vw rgba(0,0,0,0.6) !important;
 	-webkit-transform-origin: 100% 100%;
 	-moz-transform-origin: 100% 100%;
 	transform-origin: 100% 100%;
 	-webkit-transform: rotateX(90deg) translateY(130px);
 	-moz-transform: rotateX(90deg) translateY(130px);
 	transform: rotateX(90deg) translateY(130px);
-	-webkit-transition: box-shadow 350ms;
-	-moz-transition: box-shadow 350ms;
-	transition: box-shadow 350ms;
+	// -webkit-transition: box-shadow 400ms;
+	// -moz-transition: box-shadow 400ms;
+	// transition: box-shadow 400ms;
+}
+
+.box {
+	// box-shadow: -0.6vw 6vw 7vw rgba(0,0,0,0.6) !important;
+
+	.poster {
+		box-shadow: -2vw 1vw 2vw rgba(0, 0, 0, 0.2);
+	}
+
 }
 
 .csstransforms3d .box:hover::after {
-	box-shadow: 20px -5px 50px rgba(0,0,0,0.3);
+	// box-shadow: 20px -5px 50px rgba(0,0,0,0.8);
 }
 
 
 .info header {
 	color: #FFF;
-	padding: 7px 10px;
+	padding: 2px 4px;
 	font-weight: bold;
 	// height: 195px;
 	// background-size: contain;
 	// background-repeat: no-repeat;
-	// text-shadow: 0px 1px 1px rgba(0,0,0,1);
+	text-shadow: 0px 0.5px 0.5px rgba(0,0,0,0.4);
 }
 
 .info p {
@@ -111,43 +123,18 @@
 .info header h1 {
 	margin: 0 0 2px;
 	font-size: 1.4em;
-	text-align: justify;
+	text-align: left;
 }
 
 .info p {
-	padding: 1em 1.2em;
-	margin: 2px 0 0;
-	font-weight: 700;
+	padding: 14px 8px;
+	margin: 0 auto;
+	font-weight: 600;
 	color: #666;
-	line-height: 1.2em;
+	line-height: 1em;
 	border-top: 4px solid #555;
 	font-size: 1.2em;
-}
-
-.box .poster,
-.box .info,
-.box .info header {
-	-webkit-transition: box-shadow 350ms;
-	-moz-transition: box-shadow 350ms;
-	transition: box-shadow 350ms;
-}
-
-.csstransforms3d .box .poster {
-	box-shadow: inset 0px 0px 40px rgba(255,255,255,0);
-}
-
-.csstransforms3d .box:hover p {
-	box-shadow: inset 300px 0px 40px rgba(255,255,255,0.8);
-}
-
-.csstransforms3d .box .info,
-.csstransforms3d .box .info header {
-	box-shadow: inset -300px 0px 40px rgba(0,0,0,0.5);
-}
-
-.csstransforms3d .box:hover .info,
-.csstransforms3d .box:hover .info header {
-	box-shadow: inset 0px 0px 40px rgba(0,0,0,0);
+	text-align: justify;;
 }
 
 .no-csstransforms3d .box .info {

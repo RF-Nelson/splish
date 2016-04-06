@@ -174,6 +174,7 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
   }
 
   var keepBoxActive = function(target) {
+    console.log(target);
     var el = $($($($($(target).parent())).parent()).parent()).toggleClass('is-active')
     // console.log(el);
     setTimeout(function () {
@@ -278,14 +279,16 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
   $scope.notTBDandPastEvent = function (event) {
     if (event) {
       return !$scope.isTBD(event) && new Date(event.end_date) < new Date()
-
+    } else {
+      return false
     }
   }
 
   $scope.notTBDandFutureEvent = function (event) {
     if (event) {
       return !$scope.isTBD(event) && new Date(event.end_date) > new Date()
-
+    } else {
+      return false
     }
   }
 
