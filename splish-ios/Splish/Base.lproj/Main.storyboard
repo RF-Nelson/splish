@@ -48,9 +48,9 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Welcome to Splish!" id="mOI-FS-AaM"/>
                     <connections>
-                        <outlet property="activityIndicator" destination="BRV-rD-c7d" id="BxU-lC-Qk1"/>
-                        <outlet property="tableView" destination="pWx-Rl-tVc" id="2XZ-Ud-jXq"/>
-                        <outlet property="waitingLabel" destination="js9-dq-S0o" id="8Ib-2u-jTF"/>
+                        <outlet property="activityIndicator" destination="BRV-rD-c7d" id="7z0-T2-sPj"/>
+                        <outlet property="tableView" destination="pWx-Rl-tVc" id="HqI-dv-lJg"/>
+                        <outlet property="waitingLabel" destination="js9-dq-S0o" id="Fgz-Kl-9lc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>

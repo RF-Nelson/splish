@@ -10,16 +10,15 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import PusherSwift
-
+//
 class MasterViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    @IBOutlet weak var textView: UITextView!
+    
     @IBOutlet weak var waitingLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    
     @IBOutlet weak var tableView: UITableView!
-    var events: [String : JSON] = [:]
-    var json: JSON?
     
+    var json: JSON?
+    var events = [String: AnyObject]()
     let apiEndpoint: String = "https://splish.herokuapp.com/api/events"
 
     override func viewDidLoad() {
@@ -33,10 +32,23 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
             case .Success:
                 if let value = response.result.value {
                     self.json = JSON(value)
-                    print("JSON: \(self.json)")
+                    print(self.json)
+                    if let dataFromString = self.json?.string?.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                        
+                        let json = JSON(data: dataFromString)
+                        for (key, value) : (String, JSON) in json {
+                            self.events[key] = value.object
+                        }
+                    }
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.events = self.json
+                        self.tableView.reloadData()
+                    }
                     self.activityIndicator.stopAnimating()
                     self.waitingLabel.hidden = true
-                    self.events = (self.json?.dictionary)!
+//                    print(self.json)
+//                    self.events = (self.json?.dictionary)!
                     self.tableView.reloadData()
                 }
             case .Failure(let error):

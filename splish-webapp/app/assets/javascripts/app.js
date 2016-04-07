@@ -174,7 +174,7 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
   }
 
   var keepBoxActive = function(target) {
-    console.log(target);
+    // console.log(target);
     var el = $($($($($(target).parent())).parent()).parent()).toggleClass('is-active')
     // console.log(el);
     setTimeout(function () {
@@ -244,7 +244,6 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
         }
         return;
       case 'past':
-      console.log('past');
         if (new Date() > new Date(event.end_date)) {
           return event;
         }
