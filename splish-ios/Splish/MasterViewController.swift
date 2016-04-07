@@ -23,6 +23,8 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
     
     // To do: convert to a dictionary instead of a nested array
     var eventArray  = [[String]]()
+    
+    var pusher : Pusher?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +34,7 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
         self.tableView.estimatedRowHeight = 200.0;
         self.tableView.rowHeight = UITableViewAutomaticDimension
         fetchEvents()
+        listenForNewEvents()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -91,6 +94,23 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
         self.tableView.hidden = false
     }
     
+    func listenForNewEvents() -> Void {
+        let pusher = Pusher(key: "28994c89518c14262f75")
+        
+        let myChannel = pusher.subscribe("test_channel")
+        pusher.connect()
+        
+        myChannel.bind("my_event", callback: { (data: AnyObject?) -> Void in
+            if let data = data as? Dictionary<String, AnyObject> {
+                if let eventTitle = data["title"] as? String, eventDescription = data["description"] as? String {
+                    print("New event title: " + eventTitle)
+                    print("New event description: " + eventDescription)
+                    let newEventAlert = UIAlertController(title: "New Event Posted", message: "New event detected!", preferredStyle: UIAlertControllerStyle.Alert)
+                    self.presentViewController(newEventAlert, animated: true, completion: nil)
+                }
+            }
+        })
+    }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -121,14 +141,14 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
             let startDateText : String? = NSDateFormatter.localizedStringFromDate(startDate, dateStyle: .ShortStyle, timeStyle: .ShortStyle)
             cell.startDateLabel.text = "Starte Date: " + startDateText!
         } else {
-            cell.startDateLabel.text = "TBD"
+            cell.startDateLabel.text = "Start Date: TBD"
         }
         
         if let endDate = dateFormatter.dateFromString(endDateString) {
             let endDateText : String? = NSDateFormatter.localizedStringFromDate(endDate, dateStyle: .ShortStyle, timeStyle: .ShortStyle)
             cell.endDateLabel.text = "End Date: " + endDateText!
         } else {
-            cell.endDateLabel.text = "TBD"
+            cell.endDateLabel.text = "End Date: TBD"
         }
         
         cell.layer.borderColor = UIColor.lightGrayColor().CGColor
