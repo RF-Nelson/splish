@@ -20,62 +20,75 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
     var json: JSON?
     var events = [String: AnyObject]()
     let apiEndpoint: String = "https://splish.herokuapp.com/api/events"
+    
+    // To do: convert to a dictionary instead of a nested array
+    var eventArray  = [[String]]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        
-        
-        Alamofire.request(.GET, apiEndpoint).validate().responseJSON { response in
-            switch response.result {
-            case .Success:
-                if let value = response.result.value {
-                    self.json = JSON(value)
-                    print(self.json)
-                    if let dataFromString = self.json?.string?.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-                        
-                        let json = JSON(data: dataFromString)
-                        for (key, value) : (String, JSON) in json {
-                            self.events[key] = value.object
-                        }
-                    }
-                    
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.events = self.json
-                        self.tableView.reloadData()
-                    }
-                    self.activityIndicator.stopAnimating()
-                    self.waitingLabel.hidden = true
-//                    print(self.json)
-//                    self.events = (self.json?.dictionary)!
-                    self.tableView.reloadData()
-                }
-            case .Failure(let error):
-                print(error)
-            }
-        }
+        self.tableView.allowsSelection = false
+        self.tableView.estimatedRowHeight = 200.0;
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        fetchEvents()
     }
-    
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
     }
     
-    func fetchEvents(completion: ([String]) -> Void) {
+    func fetchEvents( ) -> Void {
         Alamofire.request(.GET, apiEndpoint).validate().responseJSON { response in
             switch response.result {
             case .Success:
                 if let value = response.result.value {
                     self.json = JSON(value)
-                    print("JSON: \(self.json)")
+                    
+                    for idx in 0...self.json!.count - 1 {
+                        var eventData: [String] = []
+                        
+                        if let title = self.json![idx]["title"].string {
+                            eventData.append(title)
+                        }
+                        
+                        if let startDate = self.json![idx]["start_date"].string {
+                            eventData.append(startDate)
+                        } else {
+                            eventData.append("")
+                        }
+                        
+                        if let endDate = self.json![idx]["end_date"].string {
+                            eventData.append(endDate)
+                        } else {
+                            eventData.append("")
+                        }
+                        
+                        if let description = self.json![idx]["description"].string {
+                            eventData.append(description)
+                        } else {
+                            eventData.append("")
+                        }
+                        
+                        self.eventArray.append(eventData)
+                    }
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.doneLoading()
+                    }
+                    
                 }
             case .Failure(let error):
                 print(error)
-                self.activityIndicator.stopAnimating()
-                self.waitingLabel.hidden = true
             }
         }
+    }
+    
+    func doneLoading () -> Void {
+        self.tableView.reloadData()
+        self.activityIndicator.stopAnimating()
+        self.waitingLabel.hidden = true
+        self.tableView.hidden = false
     }
     
     
@@ -84,21 +97,56 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return events.count
+        return eventArray.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
-//        let int = indexPath.row
-//        let object = events[int]
-//        cell.textLabel!.text = object
+        let cell = tableView.dequeueReusableCellWithIdentifier("EventCell", forIndexPath: indexPath) as! EventCell
+        let eventElement = eventArray[indexPath.row]
+        let eventTitle = eventElement[0]
+        let eventStartDate = eventElement[1]
+        let eventEndDate = eventElement[2]
+        let eventDescription = eventElement[3]
+        
+        cell.titleLabel.text = eventTitle
+        cell.descriptionLabel.text = eventDescription
+        
+        let startDateString = eventStartDate
+        let endDateString = eventEndDate
+        
+        let dateFormatter : NSDateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SZ"
+        
+        if let startDate = dateFormatter.dateFromString(startDateString) {
+            let startDateText : String? = NSDateFormatter.localizedStringFromDate(startDate, dateStyle: .ShortStyle, timeStyle: .ShortStyle)
+            cell.startDateLabel.text = "Starte Date: " + startDateText!
+        } else {
+            cell.startDateLabel.text = "TBD"
+        }
+        
+        if let endDate = dateFormatter.dateFromString(endDateString) {
+            let endDateText : String? = NSDateFormatter.localizedStringFromDate(endDate, dateStyle: .ShortStyle, timeStyle: .ShortStyle)
+            cell.endDateLabel.text = "End Date: " + endDateText!
+        } else {
+            cell.endDateLabel.text = "TBD"
+        }
+        
+        cell.layer.borderColor = UIColor.lightGrayColor().CGColor
+        cell.layer.borderWidth = 1
+        
         return cell
     }
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
-        return true
+        return false
     }
 }
 
+class EventCell: UITableViewCell {
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var startDateLabel: UILabel!
+    @IBOutlet weak var endDateLabel: UILabel!
+}
 
