@@ -10,9 +10,9 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import PusherSwift
-//
+import TableViewCellAnimations
+
 class MasterViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
     @IBOutlet weak var waitingLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var tableView: UITableView!
@@ -176,8 +176,17 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
             cell.endDateLabel.text = "End Date: TBD"
         }
         
+        styleCell(cell)
+
+        return cell
+    }
+    
+    func styleCell (cell : EventCell) -> EventCell {
         cell.layer.borderColor = UIColor.lightGrayColor().CGColor
         cell.layer.borderWidth = 1
+        
+        cell.addAnimation(ASTableViewCellAnimation.SlideFromLeft)
+        cell.duration = 0.4
         
         return cell
     }
@@ -185,6 +194,11 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return false
+    }
+    
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        let eventCell = cell as! EventCell
+        eventCell.animate()
     }
     
     func setupTableView() -> Void {
@@ -218,7 +232,7 @@ extension UITableView {
     }
 }
 
-class EventCell: UITableViewCell {
+class EventCell: ASTableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var startDateLabel: UILabel!

@@ -1,0 +1,6 @@
+framework module TableViewCellAnimations {
+  umbrella header "TableViewCellAnimations-umbrella.h"
+
+  export *
+  module * { export * }
+}

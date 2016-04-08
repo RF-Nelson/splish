@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '9199E8D2E9DDEF271F3048F3'
-               BlueprintName = 'Starscream'
+               BlueprintIdentifier = '38255B8928592537E8E3305C'
+               BlueprintName = 'TableViewCellAnimations'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'Starscream.framework'>
+               BuildableName = 'TableViewCellAnimations.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

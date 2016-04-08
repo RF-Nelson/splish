@@ -90,6 +90,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-Splish/ReachabilitySwift.framework"
   install_framework "Pods-Splish/Starscream.framework"
   install_framework "Pods-Splish/SwiftyJSON.framework"
+  install_framework "Pods-Splish/TableViewCellAnimations.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-Splish/Alamofire.framework"
@@ -98,4 +99,5 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-Splish/ReachabilitySwift.framework"
   install_framework "Pods-Splish/Starscream.framework"
   install_framework "Pods-Splish/SwiftyJSON.framework"
+  install_framework "Pods-Splish/TableViewCellAnimations.framework"
 fi

@@ -6,4 +6,5 @@ target 'Splish' do
   pod 'PusherSwift'
   pod 'SwiftyJSON'
   pod 'Alamofire', '~> 3.0'
+  pod 'TableViewCellAnimations'
 end

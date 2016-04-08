@@ -1,0 +1,1 @@
+../../../TableViewCellAnimations/Pod/Classes/ASTableViewCell.h

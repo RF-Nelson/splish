@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '182234D83DACF81D8AB0A57F'
+               BlueprintIdentifier = 'B09C0E4F852ABD554E957889'
                BlueprintName = 'Pods-Splish'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'Pods_Splish.framework'>
