@@ -25,6 +25,8 @@ Clone this repo and go into the splish-webapp directory. Make sure you have ruby
 
 Install PostgreSQL if you don't already have it, and then run `rake db:create db:migrate db:seed`.
 
+Seeds are generated from the `db/seeds.rb` file. I utilized the [faker](https://github.com/stympy/faker) gem to generate [Hipster Ipsum](http://hipsum.co/)-based data seeds. Seeding creates 50 guests, 50 events, and 300 RSVPs between the guests and events.
+
 If you're having a good day, then all you'll have to do after that is type `rails s` to start the Rails server, and point your local browser to `localhost:3000`, the default local Rails server address, and try your best to not weep at the beauty.
 
 ##iOS App
