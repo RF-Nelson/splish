@@ -10,13 +10,13 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require reset
- *= require mobile.scss
+ *= require overrides.scss
  *= require modal.scss
  *= require material-datetimepicker.scss
  *= require input_fields.scss
  *= require 3d_transform
  *= require hamburger_menu
+ *= require reset
  *= require_tree .
  *= require_self
  */

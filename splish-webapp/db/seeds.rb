@@ -47,7 +47,7 @@ end
   Event.create([{
     owner_id: (0..30).to_a.sample,
     title: Faker::Hipster.sentence(3, true, 2),
-    description: Faker::Hipster.paragraph(2, true),
+    description: Faker::Hipster.paragraph(1, true),
     start_date: start_date,
     end_date: end_date,
     location: Faker::Address.city + ', ' + Faker::Address.state

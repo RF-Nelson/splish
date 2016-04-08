@@ -16,9 +16,7 @@
   <body ng-app="splish" ng-controller="EventController" >
   <div class="menu-wrap">
 		<nav class="menu-top">
-			<!-- <div class="welcome">/><span>Hello, <%= current_user.first_name %>!</span></div> -->
 			<div class="filter-list">
-        <md-button ng-show="{{user_id}}" class="md-trigger md-primary md-raised" data-modal="modal-9">Create New Event</md-button><br>
         <md-button ng-show="{{user_id}}" ng-click="filter = 'tbd'" class="md-primary md-raised">See TBD Events</md-button><br>
         <md-button ng-show="{{user_id}}" ng-click="filter = 'upcoming'" class="md-primary md-raised">See Upcoming Events</md-button><br>
         <md-button ng-show="{{user_id}}" ng-click="filter = 'past'" class="md-primary md-raised">See Past Events</md-button><br>

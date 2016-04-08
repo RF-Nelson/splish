@@ -126,3 +126,37 @@ md-toast.md-default-theme .md-toast-content {
 .start-date {
   padding-top: 32px;
 }
+
+.ng-hide:not(.ng-hide-animate) {
+ display: block !important;
+}
+
+.guest-info {
+  width: 80%;
+  display: block;
+  margin: 42px auto 0;
+  text-align: center;
+}
+
+
+.sign-in {
+  text-align: center;
+  padding-top: 30px;
+  padding-bottom: 10px;
+}
+
+input:-webkit-autofill {
+  background-color: transparent !important;
+}
+
+.header-parent {
+  .align {
+    height: 100%;
+    width: 100%;
+    display: block;
+    background-color: red;
+    position: absolute !important;
+    right: 22px !important;
+    top: 36px !important;
+  }
+}

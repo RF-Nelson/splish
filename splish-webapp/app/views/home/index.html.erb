@@ -23,7 +23,7 @@
                   The date for this event has not yet been set.
                 </p>
                 <p class="rsvo-count">{{event.guests.length}} people have RSVP'd to this event.</p>
-                <div class="rsvp-button">
+                <div ng-if="user_id" class="rsvp-button">
                   <span ng-show={{user_id}}><md-button class="md-primary md-raised" ng-hide="checkIfRSVPd(event.guests) || notTBDandPastEvent(event)" ng-click="rsvp($event, event.id)">
                     RSVP to this Event
                   </md-button></span>
@@ -64,9 +64,11 @@
                 <br>
                 <span ng-show="didAttendPastEvent(event)">You were there!</span>
               </p>
-              <span ng-show={{user_id}}><md-button class="md-primary md-raised" ng-hide="checkIfRSVPd(event.guests) || notTBDandPastEvent(event)" ng-click="rsvp($event, event.id)">
+              <span ng-if={{user_id}}>
+                <md-button class="md-primary md-raised" ng-hide="checkIfRSVPd(event.guests) || notTBDandPastEvent(event)" ng-click="rsvp($event, event.id)">
                 RSVP to this Event
-              </md-button></span>
+                </md-button>
+              </span>
               <md-button class="md-primary md-raised" ng-show="checkIfAttendingFutureEvent(event)" ng-click="dersvp($event, event.id)">
                 Cancel Your RSVP
               </md-button>

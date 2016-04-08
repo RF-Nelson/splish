@@ -12,41 +12,52 @@
 					</li>
 				</ul>
 			</section>
+        <% if signed_in? %>
 
-      <% if signed_in? %>
 
-        <div class="authed" id="div-item-data" data-user-id="<%= current_user.id %>" >
-          Hello, <%= current_user.first_name %><br><br>
-          <form class='auth_form' action="<%= session_url %>" method="post">
-            <input type="hidden" name="_method" value="delete">
-            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-            <button class="sign_out" name="Sign Out">Sign Out</button>
-          </form>
-        </div>
+        <% else %>
+          <md-button ng-show="{{user_id}}" class="md-trigger md-primary md-raised" data-modal="modal-1">Sign In</md-button>
+        <% end %>
+    </div>
+    <div class="align">
+      
+    </div>
+      <md-button ng-show="{{user_id}}" class="md-trigger md-primary md-raised event-button" data-modal="modal-9">Create New Event</md-button><br>
+  </div>
 
-      <% else %>
-
+  <div class="md-modal md-effect-1" id="modal-1">
+    <div class="md-content">
+      <h3 class='modal-header'>Sign In</h3>
+      <div>
         <div class="auth">
+          <span class="guest-info">
+          guest e-mail: johnsmith@example.com<br>
+          guest password: testtest</span>
           <br>
           <form class='auth_form' action="<%= session_url %>" method="post">
             <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-
-            <label>E-mail:
-            <input type="text" placeholder="E-Mail Address" name="guest[email]" value="">
+            <span class="input input--styled">
+            <input type="text" class="input__field input__field--styled md-input" placeholder="E-Mail Address" name="guest[email]" value="">
+            <label class="input__label input__label--styled">
+              <span class="input__label-content input__label-content--styled">E-mail:</span>
             </label>
-
-            <label>Password:
-            <input id="password" type="password" placeholder="Password" name="guest[password]" value="">
+          </span>
+          <span class="input input--styled">
+            <input id="password" type="password" class="input__field input__field--styled md-input" placeholder="Password" name="guest[password]" value="">
+            <label class="input__label input__label--styled">
+              <span class="input__label-content input__label-content--styled">
+                Password:
+              </span>
             </label>
+          </span>
 
-            <button name="Sign In">Sign In</button>
+            <md-button type="submit" class="md-close md-primary md-raised" name="Sign In">Sign In</md-button>
           </form>
           <br>
           <section class='sign_in'>
-            Don't have an account yet? <a href="/guests/new">Sign Up!</a>
+            <span class="guest-info">Don't have an account yet?</span><br> <md-button class="md-close md-primary md-raised" onclick="window.open('./guests/new')" >Sign Up!</md-button>
           </section>
         </div>
-
-      <% end %>
+      </div>
+    </div>
   </div>
-</div>
