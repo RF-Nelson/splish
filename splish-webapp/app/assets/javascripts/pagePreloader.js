@@ -7,6 +7,7 @@
 
 		setTimeout( function() {
 			loader.hide();
+      $('.control__button--play').click()
       $('#page-content').addClass("show")
 		}, 3000 );
 	}

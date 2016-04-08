@@ -166,8 +166,8 @@
 
   					var ring = new mojs.Transit({
   						parent: word,
-  						duration: 1000,
-  						delay: 750 + 200*i,
+  						duration: 800,
+  						delay: 550 + 200*i,
   						type: 'circle',
   						radius: {0: letterHeight/2},
   						fill: 'transparent',

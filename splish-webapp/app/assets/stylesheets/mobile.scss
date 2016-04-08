@@ -110,3 +110,19 @@ md-toast.md-default-theme .md-toast-content {
   font-size: 16px;
   padding: 0;
 }
+
+.all-events, .tbd-wrapper {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  overflow: hidden;
+}
+
+.event-wrapper, .tbd-wrapper > div {
+  margin: 24px auto;
+  display: inline-flex;
+}
+
+.start-date {
+  padding-top: 32px;
+}
