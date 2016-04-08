@@ -16,6 +16,7 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var waitingLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var navBar: UINavigationItem!
     
     var json: JSON?
     let apiEndpoint: String = "https://splish.herokuapp.com/api/events"
@@ -27,17 +28,10 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
-        self.tableView.allowsSelection = false
-        self.tableView.estimatedRowHeight = 200.0;
-        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.setupTableView()
         fetchEvents()
         listenForNewEvents()
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+        makeItPurdy()
     }
     
     func fetchEvents( ) -> Void {
@@ -191,6 +185,26 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return false
+    }
+    
+    func setupTableView() -> Void {
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        self.tableView.allowsSelection = false
+        self.tableView.estimatedRowHeight = 200.0;
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+    }
+    
+    func makeItPurdy() -> Void {
+        //Gotta add *some* style, right?
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 40))
+        imageView.contentMode = .ScaleAspectFit
+        imageView.image = UIImage(named: "logo.png")
+        self.navBar.titleView = imageView
+    }
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return true
     }
 }
 
