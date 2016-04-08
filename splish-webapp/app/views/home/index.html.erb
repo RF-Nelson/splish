@@ -1,36 +1,14 @@
 <% content_for :header do  %>
   <%= render 'layouts/header' %>
 <% end %>
-<br><br>
-<div class="container-fluid">
-  <md-button ng-show="{{user_id}}" class="md-trigger md-primary md-raised" data-modal="modal-9">Create New Event</md-button>
-  <md-button ng-show="{{user_id}}" ng-click="filter = 'tbd'" class="md-primary md-raised">See TBD Events</md-button>
-  <md-button ng-show="{{user_id}}" ng-click="filter = 'upcoming'" class="md-primary md-raised">See Upcoming Events</md-button>
-  <md-button ng-show="{{user_id}}" ng-click="filter = 'past'" class="md-primary md-raised">See Past Events</md-button>
-  <md-button ng-show="{{user_id}}" ng-click="filter = 'all'" class=" md-primary md-raised">See All Events</md-button>
-  <md-button ng-show="{{user_id}}" ng-click="filter = 'created'" class="md-primary md-raised">See Events You Created</md-button>
-  <md-button ng-show="{{user_id}}" ng-click="filter = 'rsvpd'" class=" md-primary md-raised">See RSVP'd Events</md-button>
-  <md-button ng-show="{{user_id}}" ng-click="toggleSort(); $event.stopPropagation();" class=" md-primary md-raised">{{sortState}}</md-button>
-  <div class="panel panel-success">
-    <div class="panel-heading" >
-      <div ng-show="newEventReceived" class="events" ng-repeat="event in newEvents" style="border: 1px solid #fff;">
-        <h1 ng-if="$first">NEWLY CREATED EVENTS</h1>
-        <h1>{{event.title}}</h1>
-        <p><span ng-hide="event.start_date == event.end_date">From: {{event.start_date | date:'mediumDate'}} to </span>{{event.end_date | date:'mediumDate'}}</p>
-        <p>{{event.description}}</p>
-      </div>
-    </div>
-  </div>
-</div>
-<br><br>
 
 <div class="wrapper-wrapper">
   <div class="all-events">
     <div class="tbd-wrapper">
       <div ng-show="sortState === 'Sort by Event Title'" class="events" id="TBDevents" ng-repeat="event in events | filter: setFilterTBD" >
       	<ul class="">
-      		<li class="scene">
-      			<div class="box box-{{event.id}} tbd-box">
+      		<li class="scene" id="box-{{event.id}}">
+      			<div class="box tbd-box">
       				<div class="front">
                 <h1>{{event.title}}</h1>
                 <p>
@@ -64,8 +42,8 @@
     </div>
     <div class="wrapper events event-wrapper" ng-repeat="event in events | filter: setFilter | orderBy:predicate:reverse" ng-if="!isTBD()" >
     	<ul class="">
-    		<li class="scene">
-    			<div class="box">
+    		<li class="scene" id="box-{{event.id}}">
+    			<div class="box" >
     				<div class="front">
               <h1>{{event.title}}</h1>
               <p ng-hide="event.start_date == null || event.end_date == null" class="start-date">From: {{event.start_date | date:'MMM d, yyyy \'at\' h:mm a'}}</p>

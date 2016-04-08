@@ -11,10 +11,10 @@
 
   	var options = [
   		{
-  			size : 200,
-  			weight : 15,
+  			size : 220,
+  			weight : 14,
   			color: '#3F51B5',
-  			duration: 2,
+  			duration: 1.5,
   			fade: 5,
   			delay: 0.4,
   			easing: d3_ease.easeExpInOut.ease

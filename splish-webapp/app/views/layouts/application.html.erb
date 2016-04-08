@@ -13,12 +13,29 @@
 
     <%= favicon_link_tag 'favicon.ico' %>
   </head>
-  <body ng-app="splish" ng-controller="EventController">
-
-	<div id="pagewrap" class="pagewrap">
+  <body ng-app="splish" ng-controller="EventController" >
+  <div class="menu-wrap">
+		<nav class="menu-top">
+			<!-- <div class="welcome">/><span>Hello, <%= current_user.first_name %>!</span></div> -->
+			<div class="filter-list">
+        <md-button ng-show="{{user_id}}" class="md-trigger md-primary md-raised" data-modal="modal-9">Create New Event</md-button><br>
+        <md-button ng-show="{{user_id}}" ng-click="filter = 'tbd'" class="md-primary md-raised">See TBD Events</md-button><br>
+        <md-button ng-show="{{user_id}}" ng-click="filter = 'upcoming'" class="md-primary md-raised">See Upcoming Events</md-button><br>
+        <md-button ng-show="{{user_id}}" ng-click="filter = 'past'" class="md-primary md-raised">See Past Events</md-button><br>
+        <md-button ng-show="{{user_id}}" ng-click="filter = 'all'" class=" md-primary md-raised">See All Events</md-button><br>
+        <md-button ng-show="{{user_id}}" ng-click="filter = 'created'" class="md-primary md-raised">See Events You Created</md-button><br>
+        <md-button ng-show="{{user_id}}" ng-click="filter = 'rsvpd'" class=" md-primary md-raised">See RSVP'd Events</md-button><br>
+        <md-button ng-show="{{user_id}}" ng-click="toggleSort(); $event.stopPropagation();" class=" md-primary md-raised">{{sortState}}</md-button>
+			</div>
+		</nav>
+		<button class="close-button" id="close-button"></button>
+	</div>
+  <button class="menu-button hidden" id="open-button">
+  <%= image_tag 'filter-512.png' %></button>
+	<div id="pagewrap" class="pagewrap content-wrap">
    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMZms2er49ODMvfbXUtO5ADbAY-VYIpiA&libraries=places&callback=initAutocomplete"  defer></script>
     <%= render '/layouts/errors' %>
-    <div class="container" id="page-content">
+    <div class="container" id="page-content" class="content">
       <%= yield :header %>
       <%= yield %>
     </div>

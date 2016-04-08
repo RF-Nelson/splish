@@ -26,5 +26,6 @@
 //= require ./logo.js
 //= require ./modalEffect.js
 //= require ./vendor/svgLoader.js
+//= require hamburgerMenu
 //= require_self
 //= require_tree .

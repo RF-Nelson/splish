@@ -9,6 +9,7 @@
 			loader.hide();
       $('.control__button--play').click()
       $('#page-content').addClass("show")
+      $('#open-button').toggleClass('hidden')
 		}, 3000 );
 	}
 	init();

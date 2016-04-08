@@ -1,6 +1,7 @@
 var app = angular.module('splish',['ngMaterial', 'pusher-angular', 'ng-rails-csrf', 'ngMaterialDatePicker']);
 
 app.factory('eventService', ['$http', function($http) {
+  // A SERVICE TO MANAGE THE COLLECTION OF EVENTS
   var eventService = {};
   eventService.events = []
 
@@ -11,13 +12,22 @@ app.factory('eventService', ['$http', function($http) {
     })
   }
 
+  // TAKES IN EVENT DATA, IF THE MATCHING ID IS FOUND, THE EVENT DATA IS UPDATED.
+  // IF NO MATCHING DATA IS FOUND, A NEW EVENT IS ADDED TO THE events COLLECTION
   eventService.updateEvent = function (data) {
+    var eventAlreadyExists = false;
     for (var i = 0; i < eventService.events.length; i++) {
       if (eventService.events[i].id === data.id) {
         eventService.events[i] = data;
+        eventAlreadyExists = true
         break;
       }
     }
+
+    if (!eventAlreadyExists) {
+      eventService.events.push(data)
+    }
+
     return eventService.events;
   }
 
@@ -30,10 +40,6 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
     $scope.events = events;
   })
 
-  $scope.predicate = 'start_date';
-  $scope.reverse = false;
-  $scope.dateTimeStart;
-
   $rootScope.$watch(
     function () {
       return eventService.events;
@@ -44,26 +50,42 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
     true
   )
 
-  $scope.newEventReceived = false;
-  $scope.newEvents = [];
+  // GET USER ID STORED IN DATA ATTRIBUTE BY RAILS
   var dataDiv = document.getElementById('div-item-data');
   if (dataDiv) {
     $scope.user_id = dataDiv.getAttribute('data-user-id');
   }
+
+  // CONFIGURE PUSHER TO ENABLE REAL-TIME DATA UPDATES
   var client = new Pusher('28994c89518c14262f75');
   var pusher = $pusher(client);
   var newEvents = pusher.subscribe('test_channel');
   newEvents.bind('my_event',
   function (data) {
-    $scope.newEventReceived = true;
-    $scope.newEvents.unshift(data.message);
-    // ALSO ADD TO CURRENT COLLECTION
+    eventService.updateEvent(data.message);
+
+    if (data.message.owner_id != $scope.user_id) {
+      $scope.showNewEventToast(data.message.id)
+    }
   })
 
   newEvents.bind('eventUpdates',
   function (data) {
     $scope.events = eventService.updateEvent(data.message)
   })
+
+  // SHOW THE USER AN ALERT WHEN A NEW EVENT IS CREATED (ONLY IF ANOTHER USER CREATED THE EVENT)
+  $scope.showNewEventToast = function(id) {
+    if (id === $scope.user_id) {
+      return;
+    } else {
+      var toast = $mdToast.simple()
+            .hideDelay(5500)
+            .position('center center')
+            .action("A New Event Has Been Created!")
+      $mdToast.show(toast)
+    }
+  };
 
   $scope.message = {};
 
