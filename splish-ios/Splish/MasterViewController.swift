@@ -18,7 +18,6 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var tableView: UITableView!
     
     var json: JSON?
-    var events = [String: AnyObject]()
     let apiEndpoint: String = "https://splish.herokuapp.com/api/events"
     
     // To do: convert to a dictionary instead of a nested array
@@ -101,15 +100,47 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
         pusher.connect()
         
         myChannel.bind("my_event", callback: { (data: AnyObject?) -> Void in
-            if let data = data as? Dictionary<String, AnyObject> {
-                if let eventTitle = data["title"] as? String, eventDescription = data["description"] as? String {
-                    print("New event title: " + eventTitle)
-                    print("New event description: " + eventDescription)
-                    let newEventAlert = UIAlertController(title: "New Event Posted", message: "New event detected!", preferredStyle: UIAlertControllerStyle.Alert)
-                    self.presentViewController(newEventAlert, animated: true, completion: nil)
-                }
+            let newEvent = JSON(data!)
+            var newEventObj = [String]()
+            
+            newEventObj.append(newEvent["message"]["title"].string!)
+            
+            if let startDate = newEvent["message"]["start_date"].string {
+                newEventObj.append(startDate)
+            } else {
+                newEventObj.append("")
             }
+            
+            if let endDate = newEvent["message"]["end_date"].string {
+                newEventObj.append(endDate)
+            } else {
+                newEventObj.append("")
+            }
+            
+            newEventObj.append(newEvent["message"]["description"].string!)
+            self.addNewEvent(newEventObj)
+            self.tableView.reloadData()
         })
+    }
+    
+    func addNewEvent(event : [String]) -> Void {
+        self.eventArray.append(event)
+        self.showNewEventAlert(event[0])
+    }
+    
+    func showNewEventAlert(eventTitle: String) -> Void {
+        let newEventAlert = UIAlertController(title: "New Event!", message: "New event detected! Would you like to scroll to the new event?", preferredStyle: UIAlertControllerStyle.Alert)
+        newEventAlert.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { (action: UIAlertAction!) in
+            // User chose to see new event listing (scroll to bottom of tableView)
+            self.tableView.scrollToBottom(true)
+        }))
+        
+        newEventAlert.addAction(UIAlertAction(title: "No", style: .Default, handler: { (action: UIAlertAction!) in
+            // User chose to do nothing
+            return
+        }))
+        
+        self.presentViewController(newEventAlert, animated: true, completion: nil)
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -160,6 +191,16 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return false
+    }
+}
+
+extension UITableView {
+    func scrollToBottom(animated: Bool) {
+        var y: CGFloat = 0.0
+        if self.contentSize.height > UIScreen.mainScreen().bounds.height {
+            y = self.contentSize.height - UIScreen.mainScreen().bounds.height
+        }
+        self.setContentOffset(CGPointMake(0, y), animated: animated)
     }
 }
 
