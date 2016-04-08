@@ -128,7 +128,7 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
   }
 
   $scope.rsvp = function ($event, eventID) {
-    keepBoxActive($event.currentTarget)
+    keepBoxActive(eventID)
     var data = {rsvp: $scope.user_id}
     $http({
       method  : 'PUT',
@@ -145,7 +145,7 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
     }
 
   $scope.dersvp = function ($event, eventID) {
-    keepBoxActive($event.currentTarget)
+    keepBoxActive(eventID)
     var data = {dersvp: $scope.user_id}
     $http({
       method  : 'PUT',
@@ -173,13 +173,12 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
     return false;
   }
 
-  var keepBoxActive = function(target) {
-    // console.log(target);
-    var el = $($($($($(target).parent())).parent()).parent()).toggleClass('is-active')
-    // console.log(el);
-    setTimeout(function () {
-      $(el).toggleClass('is-active')
-    }, 3000)
+  var keepBoxActive = function(eventID) {
+    // var className = '.box-' + eventID
+    // var activeBox = $(className)[0]
+    // console.log(className);
+    // console.log(activeBox);
+    // $(activeBox).toggleClass('is-active')
   }
 
   var submitForm = document.getElementById('modal-form');

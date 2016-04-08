@@ -113,6 +113,8 @@
 
   textarea {
     resize: none;
+    outline: none;
+    outline-width: 0;
   }
 
   .textarea::before {

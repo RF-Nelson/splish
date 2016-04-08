@@ -10,8 +10,9 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require ./googlePlacesAutocomplete.js
 //= require ./vendor/classie.js
+//= require ./vendor/snap.svg-min.js
+//= require ./googlePlacesAutocomplete.js
 //= require ./vendor/mo.min.js
 //= require ./vendor/segment.min.js
 //= require ./vendor/d3-ease.v0.6.js
@@ -24,5 +25,6 @@
 //= require ng-rails-csrf
 //= require ./logo.js
 //= require ./modalEffect.js
+//= require ./vendor/svgLoader.js
 //= require_self
 //= require_tree .
