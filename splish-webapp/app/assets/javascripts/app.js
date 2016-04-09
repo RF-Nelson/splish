@@ -187,6 +187,7 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
   if (event) {
     for (var i = 0; i < event.length; i++) {
       if (event[i].id == $scope.user_id) {
+        console.log('found rsvp event for event #: ' + event.id + '  and user #: ' + $scope.user_id);
         return true;
       }
     }
@@ -258,6 +259,7 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
         return;
       }
     }
+
     switch ($scope.filter) {
       case 'upcoming':
         if (new Date() < new Date(event.start_date)) {
@@ -360,14 +362,20 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
       }
     }
 
+    $scope.predicate = 'start_date'
     $scope.sortState = "Sort by Event Title"
-    $scope.toggleSort = function () {
-      if ($scope.sortState === "Sort by Event Title") {
-        $scope.predicate = 'title'
-        $scope.sortState = "Sort by Event Date"
+    $scope.toggleSort = function (bool) {
+      if (bool) {
+        if ($scope.sortState === "Sort by Event Title") {
+          $scope.predicate = 'title'
+          $scope.sortState = "Sort by Event Date"
+        } else {
+          $scope.predicate = 'start_date'
+          $scope.sortState = "Sort by Event Title"
+        }
       } else {
-        $scope.predicate = 'start_date'
-        $scope.sortState = "Sort by Event Title"
+          $scope.predicate = 'start_date'
+          $scope.sortState = "Sort by Event Title"
       }
     }
 

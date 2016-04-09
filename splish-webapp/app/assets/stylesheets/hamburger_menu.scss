@@ -39,7 +39,7 @@ body {
 .menu-button {
 	position: fixed;
 	z-index: 1000;
-	margin: 1em;
+	margin: 22px 14px;
 	padding: 0;
 	width: 2.5em;
 	height: 2.25em;
@@ -130,7 +130,7 @@ body {
 }
 
 .show-menu .content::before {
-	opacity: 1;
+	// opacity: 1;
 	-webkit-transition: opacity 0.3s;
 	transition: opacity 0.3s;
 	-webkit-transform: translate3d(0,0,0);
