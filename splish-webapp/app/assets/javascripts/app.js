@@ -326,7 +326,6 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
 
   $scope.setFilterTBD = function (event) {
     var TBDsection = true;
-
     switch ($scope.filter) {
       case 'upcoming':
         return
