@@ -45,7 +45,9 @@ Although there is no mobile-specific breakpoint, the CSS 3D effects work rather 
 
 - [ ] Refactor Angular `app.js` file into separate controllers
 - [ ] Add a 'simple' list view option
+- [ ] Improve cross-browser compatbility (currently optimized for Chrome; spacing issues on Firefox/Mobile Safari)
 - [ ] Expand intergration testing
 - [ ] Add the [Paperclip](https://github.com/thoughtbot/paperclip) gem and allow uploaded images
 - [ ] Add the [pg_search](https://github.com/Casecommons/pg_search) gem to allow user to search for title, description, etc.
 - [ ] Add 'keywords' to allow filtering and searching of like-minded events
+- [ ] Create a "Comments" table and allow users to add comments to event
