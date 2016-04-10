@@ -8,7 +8,7 @@
 <section id="eventstack-wrapper" class="eventstack hidden">
 	<div>
 		<figure ng-repeat="event in events" data-shuffle-iteration="2">
-			<img src="https://unsplash.it/400/400?image={{event.id}}" alt="Image"/>
+			<img src="https://unsplash.it/300/300?image={{event.id}}" alt="Image"/>
 			<figcaption>
 				<h2 class="eventstack-title">
         <span class="dates">
@@ -45,6 +45,7 @@
       			<div class="box tbd-box">
       				<div class="front">
                 <h1>{{event.title}}</h1>
+                <img src="https://unsplash.it/300/300?image={{event.id}}" alt="Image"/>
                 <p>
                   The date for this event is TBD.
                 </p>
@@ -58,14 +59,14 @@
                 </p>
                 <p class="rsvp-count">{{event.guests.length}} people have RSVP'd to this event.</p>
                 <div ng-if="user_id" class="rsvp-button">
-                  <span ng-show={{user_id}}><md-button class="md-primary md-raised" ng-hide="checkIfRSVPd(event.guests) || notTBDandPastEvent(event)" ng-click="rsvp($event, event.id)">
+                  <span ng-show={{user_id}}><md-button class="md-primary md-raised" ng-if="!(checkIfRSVPd(event.guests) || notTBDandPastEvent(event))" ng-click="rsvp($event, event.id)">
                     RSVP to this Event
                   </md-button></span>
-                  <md-button class="md-primary md-raised" ng-show="checkIfEligibleToCancelEvent(event)" ng-click="dersvp($event, event.id)">
+                  <md-button class="md-primary md-raised" ng-if="checkIfEligibleToCancelEvent(event)" ng-click="dersvp($event, event.id)">
                     Cancel Your RSVP
                   </md-button>
                   <span ng-hide="notTBDandFutureEvent(event)">
-                    <md-button ng-show="user_id == event.owner_id" ng-click="fillEditField(event)" class="md-primary md-raised" data-modal="modal-9">Edit Event</md-button>
+                    <md-button ng-if="user_id == event.owner_id" ng-click="fillEditField(event)" class="md-primary md-raised" data-modal="modal-9">Edit Event</md-button>
                   </span>
                 </div>
       				</div>
@@ -80,6 +81,7 @@
     			<div class="box" >
     				<div class="front">
               <h1>{{event.title}}</h1>
+              <img src="https://unsplash.it/300/300?image={{event.id}}" alt="Image"/>
               <p ng-if="!(event.start_date == null || event.end_date == null)" class="start-date">From: {{event.start_date | date:'MMM d, yyyy \'at\' h:mm a'}}</p>
               <p ng-if="!(event.start_date == null || event.end_date == null)">To: {{event.end_date | date:'MMM d, yyyy \'at\' h:mm a'}}</p>
               <p ng-if="event.start_date == null || event.end_date == null">TBD</p>
@@ -99,13 +101,13 @@
                 <span ng-if="didAttendPastEvent(event)">You were there!</span>
               </p>
               <span ng-if="user_id">
-                <md-button class="md-primary md-raised" ng-hide="checkIfRSVPd(event.guests) || notTBDandPastEvent(event)" ng-click="rsvp($event, event.id)">
+                <md-button class="md-primary md-raised" ng-if="!(checkIfRSVPd(event.guests) || notTBDandPastEvent(event))" ng-click="rsvp($event, event.id)">
                 RSVP to this Event
                 </md-button>
-                <md-button class="md-primary md-raised" ng-show="checkIfAttendingFutureEvent(event)" ng-click="dersvp($event, event.id)">
+                <md-button class="md-primary md-raised" ng-if="checkIfAttendingFutureEvent(event)" ng-click="dersvp($event, event.id)">
                   Cancel Your RSVP
                 </md-button>
-                <md-button ng-show="user_id == event.owner_id" ng-click="fillEditField(event)" class="md-primary md-raised" data-modal="modal-9">Edit Event</md-button>
+                <md-button ng-if="user_id == event.owner_id" ng-click="fillEditField(event)" class="md-primary md-raised" data-modal="modal-9">Edit Event</md-button>
               </span>
     				</div>
     			</div>

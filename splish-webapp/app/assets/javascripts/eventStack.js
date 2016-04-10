@@ -1,18 +1,7 @@
-/**
- * eventstack.js v1.0.0
- * http://www.codrops.com
- *
- * Licensed under the MIT license.
- * http://www.opensource.org/licenses/mit-license.php
- *
- * Copyright 2014, Codrops
- * http://www.codrops.com
- */
 ;( function( window ) {
 
 	'use strict';
 
-	// https://gist.github.com/edankwan/4389601
 	Modernizr.addTest('csstransformspreserve3d', function () {
 		var prop = Modernizr.prefixed('transformStyle');
 		var val = 'preserve-3d';

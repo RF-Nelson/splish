@@ -124,7 +124,7 @@ md-toast.md-default-theme .md-toast-content {
 }
 
 .start-date {
-  padding-top: 32px;
+  padding-top: 2px;
 }
 
 .ng-hide:not(.ng-hide-animate) {
@@ -170,6 +170,7 @@ md-toast.md-default-theme .md-toast-content {
     top: 24px;
     width: 56px;
     height: auto;
+    z-index: 10000;
 
     &:hover {
       cursor: pointer;

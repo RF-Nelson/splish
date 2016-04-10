@@ -150,7 +150,6 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
   }
 
   $scope.rsvp = function ($event, eventID) {
-    keepBoxActive(eventID)
     var data = {rsvp: $scope.user_id}
     $http({
       method  : 'PUT',
@@ -167,7 +166,6 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
     }
 
   $scope.dersvp = function ($event, eventID) {
-    keepBoxActive(eventID)
     var data = {dersvp: $scope.user_id}
     $http({
       method  : 'PUT',
@@ -194,14 +192,6 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
   }
 
     return false;
-  }
-
-  var keepBoxActive = function(eventID) {
-    // var className = '.box-' + eventID
-    // var activeBox = $(className)[0]
-    // console.log(className);
-    // console.log(activeBox);
-    // $(activeBox).toggleClass('is-active')
   }
 
   var submitForm = document.getElementById('modal-form');
@@ -394,6 +384,8 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
       $('.wrapper-wrapper').toggleClass('hidden');
       $('.eventstack').toggleClass('hidden');
       $('.eventstack-info').toggleClass('hidden');
+      $('.hide-in-random-mode').toggleClass('hidden');
+
       if ($scope.randomMode === 'Turn On Random Mode') {
         $scope.randomMode = 'Turn OFF Random Mode';
       } else {

@@ -67,7 +67,7 @@
 
 .tbd-box {
 	p {
-		padding-top: 120px;
+		padding-top: 20px;
 	}
 
 	.info p {
@@ -90,7 +90,7 @@
 	text-align: center;
 
 	h1 {
-		padding: 14px;
+		font-size:24px;
 	}
 }
 
@@ -192,6 +192,11 @@
 
 .box .front {
 	 box-shadow: inset 0px 0px 40px rgba(255,255,255,0);
+
+	 img {
+		 width: 74%;
+		 margin: 0 auto;
+	 }
 }
 
 .box:hover .front {
