@@ -39,7 +39,7 @@ The newest release of AlamoFire requires Xcode 7.3, although you can probably in
 
 ### Notes and To-Do
 
-This repo includes the app API key for pusher, so unless you configure your own Pusher account and newly created events will be pushed to _all_ connected clients, regardless of whether you are running locally or not. The Pusher system doesn't know the difference and any events created in any environment will be transmitted to all other connected clients.
+This repo includes the app API key for pusher, so unless you configure your own Pusher account, all newly created events will be pushed to _all_ connected clients, regardless of whether you are running locally or not. The Pusher system doesn't know the difference and any events created in any environment will be transmitted to all other connected clients.
 
 Although there is no mobile-specific breakpoint, the CSS 3D effects work rather well on modern mobile devices.
 
