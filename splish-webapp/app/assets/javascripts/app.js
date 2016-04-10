@@ -365,6 +365,7 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
     $scope.predicate = 'start_date'
     $scope.sortState = "Sort by Event Title"
     $scope.toggleSort = function (bool) {
+      $('.close-button').click()
       if (bool) {
         if ($scope.sortState === "Sort by Event Title") {
           $scope.predicate = 'title'
@@ -385,5 +386,21 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
       var timeDiff = Math.abs(date2.getTime() - date1.getTime());
       var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
       return diffDays;
+    }
+
+    $scope.randomMode = 'Turn On Random Mode';
+
+    $scope.toggleRandomMode = function () {
+      $('.close-button').click()
+      $('.wrapper-wrapper').toggleClass('hidden');
+      $('.eventstack').toggleClass('hidden');
+      $('.eventstack-info').toggleClass('hidden');
+      if ($scope.randomMode === 'Turn On Random Mode') {
+        $scope.randomMode = 'Turn OFF Random Mode';
+      } else {
+        $scope.randomMode = 'Turn On Random Mode';
+      }
+
+        window.setupEventstack();
     }
 }]);

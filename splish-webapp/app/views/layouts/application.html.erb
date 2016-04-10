@@ -17,13 +17,16 @@
   <div class="menu-wrap">
 		<nav class="menu-top">
 			<div class="filter-list">
-        <md-button ng-click="toggleSort(false); filter = 'tbd'" class="md-primary md-raised">See TBD Events</md-button><br>
-        <md-button ng-click="toggleSort(false); filter = 'upcoming'" class="md-primary md-raised">See Upcoming Events</md-button><br>
-        <md-button ng-click="toggleSort(false); filter = 'past'" class="md-primary md-raised">See Past Events</md-button><br>
-        <md-button ng-click="toggleSort(false); filter = 'all'" class=" md-primary md-raised">See All Events</md-button><br>
-        <md-button ng-click="toggleSort(false); filter = 'created'" class="md-primary md-raised">See Events You Created</md-button><br>
-        <md-button ng-click="toggleSort(false); filter = 'rsvpd'" class=" md-primary md-raised">See RSVP'd Events</md-button><br>
-        <md-button ng-click="toggleSort(true); filter = 'all';" class=" md-primary md-raised">{{sortState}}</md-button>
+        <span ng-if="randomMode === 'Turn On Random Mode'">
+          <md-button ng-click="toggleSort(false); filter = 'tbd';" class="md-primary md-raised">See TBD Events</md-button><br>
+          <md-button ng-click="toggleSort(false); filter = 'upcoming'" class="md-primary md-raised">See Upcoming Events</md-button><br>
+          <md-button ng-click="toggleSort(false); filter = 'past'" class="md-primary md-raised">See Past Events</md-button><br>
+          <md-button ng-click="toggleSort(false); filter = 'all'" class=" md-primary md-raised">See All Events</md-button><br>
+          <md-button ng-click="toggleSort(false); filter = 'created'" class="md-primary md-raised">See Events You Created</md-button><br>
+          <md-button ng-click="toggleSort(false); filter = 'rsvpd'" class=" md-primary md-raised">See RSVP'd Events</md-button><br>
+          <md-button ng-click="toggleSort(true); filter = 'all';" class=" md-primary md-raised">{{sortState}}</md-button>
+        </span>
+        <md-button ng-click="toggleRandomMode()" class=" md-primary md-raised random-button">{{randomMode}}</md-button>
 			</div>
 		</nav>
 		<button class="close-button" id="close-button"></button>

@@ -2,6 +2,40 @@
   <%= render 'layouts/header' %>
 <% end %>
 
+<div class="eventstack-info hidden">
+  <span>Each dot represents an event.<br>Click a dot to bring up an event.<br>Click it again to see more info about the event.</span>
+</div>
+<section id="eventstack-wrapper" class="eventstack hidden">
+	<div>
+		<figure ng-repeat="event in events" data-shuffle-iteration="2">
+			<img src="https://unsplash.it/400/400?image={{event.id}}" alt="Image"/>
+			<figcaption>
+				<h2 class="eventstack-title">
+        <span class="dates">
+          <p ng-if="!(event.start_date == null || event.end_date == null)">From: {{event.start_date | date:'MMM d, yyyy \'at\' h:mm a'}}</p>
+          <p ng-if="!(event.start_date == null || event.end_date == null)">To: {{event.end_date | date:'MMM d, yyyy \'at\' h:mm a'}}</p>
+          <p class="eventstack-tbd" ng-if="event.start_date == null || event.end_date == null">TBD</p>
+        </span>
+          <span class="event-title">{{event.title}}</span>
+        </h2>
+				<div class="eventstack-back">
+          <p ng-if="!(event.start_date == null || event.end_date == null)">From: {{event.start_date | date:'MMM d, yyyy \'at\' h:mm a'}}</p>
+          <p ng-if="!(event.start_date == null || event.end_date == null)">To: {{event.end_date | date:'MMM d, yyyy \'at\' h:mm a'}}</p>
+          <p class="eventstack-tbd" ng-if="event.start_date == null || event.end_date == null">TBD</p>
+					<p>{{event.description}}</p>
+          <p ng-if="!notTBDandPastEvent(event)"><span ng-show="notTBDandFutureEvent(event)">{{event.guests.length}} people have RSVP'd to this event.</span></p>
+          <p ng-if="notTBDandPastEvent(event)">{{event.guests.length}} people attended this event.
+            <br><br>
+            This event ended {{daysSinceEnded(event.end_date)}} days ago.
+            <br>
+            <span ng-if="didAttendPastEvent(event)">You were there!</span>
+          </p>
+				</div>
+			</figcaption>
+		</figure>
+	</div>
+</section>
+
 <div class="wrapper-wrapper">
   <div class="all-events">
     <div class="tbd-wrapper">

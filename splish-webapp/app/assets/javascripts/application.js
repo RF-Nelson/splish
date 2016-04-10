@@ -14,6 +14,7 @@
 //= require ./vendor/snap.svg-min.js
 //= require ./googlePlacesAutocomplete.js
 //= require ./vendor/mo.min.js
+//= require ./vendor/modernizr.min.js
 //= require ./vendor/segment.min.js
 //= require ./vendor/d3-ease.v0.6.js
 //= require ./vendor/letters.js

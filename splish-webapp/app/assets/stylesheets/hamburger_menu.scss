@@ -109,7 +109,7 @@ body {
 	position: absolute;
 	z-index: 1001;
 	width: 290px;
-	height: 488px;
+	height: 576px;
 	background: rgba(51, 15, 61, 0.8);
 	color: #373a47;
 	padding: 2em;
@@ -143,5 +143,8 @@ body {
 		width: 260px;
 		height: 42px;
 		margin: 6px auto !important;
+	}
+	.random-button {
+		margin-top: 34px !important;
 	}
 }

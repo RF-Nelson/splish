@@ -213,6 +213,11 @@
               document.getElementById(component).disabled = false;
             }
           }
+
+          setTimeout(function () {
+            $('.pageload-overlay').addClass('hidden');
+          }, 2500)
+
         }, 500)
 
   			playCtrl.addEventListener('click', function() {
