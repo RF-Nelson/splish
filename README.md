@@ -37,9 +37,7 @@ There is only a single ViewController; it pings the Rails API, parses the JSON w
 Anyone with a Mac that can run Xcode 7.3 can build the app and share in the joy of instant event notification on their iOS device or in the iOS simulator.
 The newest release of AlamoFire requires Xcode 7.3, although you can probably install an old version of the CocoaPod and it would work fine. 
 
-### Caveats
-On smaller screens, the "New Event" creation modal is too large for the screen and you will have to zoom out (⌘ and - on a Mac) to interact with the whole form.
-
+### Notes
 Although there is no mobile-specific breakpoint, the CSS 3D effects work rather well on modern mobile devices.
 
 This repo includes the app API key for pusher, so unless you configure your own Pusher account, all newly created events will be pushed to _all_ connected clients, regardless of whether you are running locally or not. The Pusher system doesn't know the difference and any events created in any environment will be transmitted to all other connected clients.
