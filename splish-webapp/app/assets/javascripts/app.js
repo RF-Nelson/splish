@@ -185,7 +185,6 @@ app.controller('EventController', ['$scope', '$http', '$pusher', '$mdDialog', '$
   if (event) {
     for (var i = 0; i < event.length; i++) {
       if (event[i].id == $scope.user_id) {
-        console.log('found rsvp event for event #: ' + event.id + '  and user #: ' + $scope.user_id);
         return true;
       }
     }
