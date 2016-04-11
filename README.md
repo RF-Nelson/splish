@@ -3,6 +3,8 @@ Splish is an event management platform that allows people to create events and m
 
 This repo includes a Rails/Angular web app as well as a native iOS app. The Rails API uses [Pusher](https://pusher.com/?v=y) to allow for real-time communication of data between the API and any connected browser or iOS device. If you create a new event or change an RSVP, anyone looking on the web or their iPhone will be notified instantly.
 
+_Don't miss the super-cool random mode! Click the filter button in the upper-lift and select "Turn on Random Mode"_
+
 ##Web app
 
 ###Front-end
