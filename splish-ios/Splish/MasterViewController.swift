@@ -19,7 +19,7 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var navBar: UINavigationItem!
     
     var json: JSON?
-    let apiEndpoint: String = "https://splish.herokuapp.com/api/events"
+    let apiEndpoint: String = "https://splishthat.herokuapp.com/api/events"
     
     // To do: convert to a dictionary instead of a nested array
     var eventArray  = [[String]]()
