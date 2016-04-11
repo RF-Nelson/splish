@@ -38,7 +38,7 @@ Anyone with a Mac that can run Xcode 7.3 can build the app and share in the joy 
 The newest release of AlamoFire requires Xcode 7.3, although you can probably install an old version of the CocoaPod and it would work fine. 
 
 ### Caveats
-On smaller screens, the "New Event" creation modal is too large for the screen and you will have to interact with the whole form.
+On smaller screens, the "New Event" creation modal is too large for the screen and you will have to zoom out (⌘ and - on a Mac) to interact with the whole form.
 
 Although there is no mobile-specific breakpoint, the CSS 3D effects work rather well on modern mobile devices.
 
