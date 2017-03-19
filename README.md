@@ -1,5 +1,5 @@
-<div align="center"><a href="https://splishthat.herokuapp.com/"><img src="http://i.imgur.com/EiCOD6u.png"/><br>click to see live demo</a> <br><br></div>
-Splish is an event management platform that allows people to create events and manage a guest list. You can see a live demo at: https://splishthat.herokuapp.com
+<div align="center"><a href="#"><img src="http://i.imgur.com/EiCOD6u.png"/><br></a> <br><br></div>
+Splish is an event management platform that allows people to create events and manage a guest list. 
 
 This repo includes a Rails/Angular web app as well as a native iOS app. The Rails API uses [Pusher](https://pusher.com/?v=y) to allow for real-time communication of data between the API and any connected browser or iOS device. If you create a new event or change an RSVP, anyone looking on the web or their iPhone will be notified instantly.
 
@@ -8,7 +8,7 @@ _Don't miss the super-cool random mode! Click the filter button in the upper-lif
 ##Web app
 
 ###Front-end
-This front-end of this web app is built on Angular 1.4. You can build and run this app locally or [visit it live on Heroku](https://splishthat.herokuapp.com). Some of the more useful libraries used in the webapp are [Pusher](https://pusher.com/?v=y), [d3-ease](https://github.com/d3/d3-ease), [letters.js](http://letteringjs.com/), [mo.js](http://mojs.io/), and [Angular Material](https://github.com/angular/material), among others.
+This front-end of this web app is built on Angular 1.4. You can build and run this app locally and push it to Heroku with ease. Some of the more useful libraries used in the webapp are [Pusher](https://pusher.com/?v=y), [d3-ease](https://github.com/d3/d3-ease), [letters.js](http://letteringjs.com/), [mo.js](http://mojs.io/), and [Angular Material](https://github.com/angular/material), among others.
 
 Currently, users can create and edit events, as well as RSVP to and de-RSVP from them.
 
